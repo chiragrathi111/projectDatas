@@ -1,0 +1,2753 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://pipra.com/VE/1_0"
+	xmlns:tns="http://pipra.com/VE/1_0" elementFormDefault="qualified">
+
+	<xsd:element name="LoginRequest" type="tns:LoginRequest" />
+
+	<xsd:complexType name="LoginRequest">
+		<xsd:sequence>
+			<xsd:element name="user" type="xsd:string" />
+			<xsd:element name="pass" type="xsd:string" />
+			<!-- <xsd:element name="client" type="xsd:string" />
+			<xsd:element name="role" type="xsd:string" />
+			<xsd:element name="organization" type="xsd:string" />
+			<xsd:element name="warehouse" type="xsd:string" /> -->
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="GenerateLabelRequest"
+		type="tns:GenerateLabelRequest"></xsd:element>
+	<xsd:complexType name="GenerateLabelRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="labelTypeId" type="xsd:int" />
+			<xsd:element name="parentLabel" type="xsd:int" />
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="qcPassed" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="GenerateLabelResponse"
+		type="tns:GenerateLabelResponse"></xsd:element>
+	<xsd:complexType name="GenerateLabelResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="labelId" type="xsd:int" />
+			<xsd:element name="quantity" type="xsd:int" />
+			<xsd:element name="labelUUID" type="xsd:string" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<!-- <xsd:element name="GetVELabelDataRequest" type="tns:GetVELabelDataRequest"></xsd:element> 
+		<xsd:complexType name="GetVELabelDataRequest"> <xsd:sequence> <xsd:element 
+		name="serviceType" type="xsd:string" /> <xsd:element name="ADLoginRequest" 
+		type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" /> <xsd:element name="labelId" 
+		type="xsd:int" /> <xsd:element name="labelUUID" type="xsd:string" /> <xsd:element 
+		name="rePacking" type="xsd:boolean" /> </xsd:sequence> </xsd:complexType> 
+		<xsd:element name="GetVELabelDataResponse" type="tns:GetVELabelDataResponse"></xsd:element> 
+		<xsd:complexType name="GetVELabelDataResponse"> <xsd:sequence> <xsd:element 
+		name="Error" type="xsd:string" minOccurs="0" /> <xsd:element name="labelId" 
+		type="xsd:int" /> <xsd:element name="labelUUID" type="xsd:string" /> <xsd:element 
+		name="labelTypeId" type="xsd:int" /> <xsd:element name="parentLabel" type="xsd:int" 
+		/> <xsd:element name="productId" type="xsd:int" /> <xsd:element name="qcPassed" 
+		type="xsd:boolean" /> <xsd:element name="isActive" type="xsd:boolean" /> 
+		<xsd:element name="labelLine" type="tns:LabelLine" minOccurs="0" maxOccurs="unbounded" 
+		/> </xsd:sequence> <xsd:attribute name="IsError" type="xsd:boolean" /> </xsd:complexType> 
+		<xsd:complexType name="LabelLine"> <xsd:sequence> <xsd:element name="labelId" 
+		type="xsd:int" /> <xsd:element name="labelUUID" type="xsd:string" /> <xsd:element 
+		name="labelTypeId" type="xsd:int" /> <xsd:element name="parentLabel" type="xsd:int" 
+		/> <xsd:element name="productId" type="xsd:int" /> <xsd:element name="qcPassed" 
+		type="xsd:boolean" /> <xsd:element name="isActive" type="xsd:boolean" /> 
+		<xsd:element name="labelLine" type="tns:LabelLine" minOccurs="0" maxOccurs="unbounded" 
+		/> </xsd:sequence> </xsd:complexType> -->
+
+	<xsd:element name="ParentLabelRequest"
+		type="tns:ParentLabelRequest"></xsd:element>
+	<xsd:complexType name="ParentLabelRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="parantlabelUUid" type="xsd:string" />
+			<xsd:element name="disintegrate" type="xsd:boolean" />		
+			<xsd:element name="parentLabelId" type="xsd:int" />
+			<xsd:element name="ProductLabelLine"
+				type="tns:ProductLabelLine" minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="GetClientConfigRequest"
+		type="tns:GetClientConfigRequest"></xsd:element>
+	<xsd:complexType name="GetClientConfigRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="GetClientConfigResponse"
+		type="tns:GetClientConfigResponse"></xsd:element>
+	<xsd:complexType name="GetClientConfigResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="ClientConfig" type="tns:ClientConfig"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="ClientConfig">
+		<xsd:sequence>
+			<xsd:element name="key" type="xsd:string" />
+			<xsd:element name="value" type="tns:ValueType" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="ValueType">
+		<xsd:union>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string" />
+			</xsd:simpleType>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:boolean" />
+			</xsd:simpleType>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:int" />
+			</xsd:simpleType>
+		</xsd:union>
+	</xsd:simpleType>
+
+	<xsd:element name="PurchaseOrderRequest"
+		type="tns:PurchaseOrderRequest"></xsd:element>
+	<xsd:complexType name="PurchaseOrderRequest">
+		<xsd:sequence>
+<!-- 			<xsd:element name="serviceType" type="xsd:string" />
+ -->			<xsd:element name="LoginRequest" type="tns:LoginRequest"
+				minOccurs="1" maxOccurs="1" />
+			<!-- <xsd:element name="client" type="xsd:string" />
+			<xsd:element name="organization" type="xsd:string" /> -->
+			<xsd:element name="DeptName" type="xsd:string" />
+			<xsd:element name="vNo" type="xsd:string" />
+			<xsd:element name="Narration" type="xsd:string" />
+			<xsd:element name="vDate" type="xsd:dateTime" />
+<!-- 			<xsd:element name="datePromised" type="xsd:dateTime" />
+ -->			<xsd:element name="AcHeadName" type="xsd:string" />
+			<!-- <xsd:element name="AcHeadName" type="xsd:string" /> -->
+			<xsd:element name="ShipTo" type="xsd:string" />
+			<xsd:element name="BillTo" type="xsd:string" />
+			<!-- <xsd:element name="userContact" type="xsd:string" />
+			<xsd:element name="invoiceContact" type="xsd:string" /> -->
+			<!-- <xsd:element name="paymentRule" type="xsd:string" />
+			<xsd:element name="priceList" type="xsd:string" /> -->
+			<xsd:element name="dtItems" type="tns:POLine"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="POLine">
+		<xsd:sequence>
+			<xsd:element name="vLineNo" type="xsd:string" />
+			<xsd:element name="MaterialName" type="xsd:string" />
+			<xsd:element name="Narration" type="xsd:string" />
+			<xsd:element name="Qty" type="xsd:int" />
+			<xsd:element name="TaxRate" type="xsd:string" />
+			<xsd:element name="DiscAmt" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="SalesOrderRequest"
+		type="tns:SalesOrderRequest"></xsd:element>
+	<xsd:complexType name="SalesOrderRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="LoginRequest" type="tns:LoginRequest"
+				minOccurs="1" maxOccurs="1" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="dateOrdered" type="xsd:dateTime" />
+			<xsd:element name="datePromised" type="xsd:dateTime" />
+			<xsd:element name="businessPartner" type="xsd:string" />
+			<xsd:element name="invoicePartner" type="xsd:string" />
+			<xsd:element name="partnerLocation" type="xsd:string" />
+			<xsd:element name="invoiceLocation" type="xsd:string" />
+			<xsd:element name="paymentRule" type="xsd:string" />
+			<xsd:element name="priceList" type="xsd:string" />
+			<xsd:element name="SOLine" type="tns:SOLine"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="SOLine">
+		<xsd:sequence>
+			<xsd:element name="orderLineReference" type="xsd:string" />
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="quantity" type="xsd:int" />
+			<xsd:element name="tax" type="xsd:string" />
+			<xsd:element name="discount" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="SalesOrderResponse"
+		type="tns:SalesOrderResponse"></xsd:element>
+	<xsd:complexType name="SalesOrderResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="documentNo" type="xsd:string" />
+			<xsd:element name="salesOrderId" type="xsd:int" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:element name="CreateProductRequest"
+		type="tns:CreateProductRequest"></xsd:element>
+	<xsd:complexType name="CreateProductRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="LoginRequest" type="tns:LoginRequest"
+				minOccurs="1" maxOccurs="1" />
+			<xsd:element name="client" type="xsd:string" />
+			<xsd:element name="organization" type="xsd:string" />
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="productCategory" type="xsd:string" />
+			<xsd:element name="taxCategory" type="xsd:string" />
+			<xsd:element name="productCount" type="xsd:int" />
+			<xsd:element name="uom" type="xsd:string" />
+			<xsd:element name="bom" type="xsd:boolean" />
+			<xsd:element name="BOMReq" type="tns:BOM" minOccurs="0"
+				maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="BOM">
+		<xsd:sequence>
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="bomName" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="default" type="xsd:boolean" />
+			<xsd:element name="BOMComponents"
+				type="tns:BOMComponents" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="BOMComponents">
+		<xsd:sequence>
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="quantity" type="xsd:float" />
+			<xsd:element name="componentId" type="xsd:int" />
+			<xsd:element name="productId" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="ManufacturingOrderRequest"
+		type="tns:ManufacturingOrderRequest"></xsd:element>
+	<xsd:complexType name="ManufacturingOrderRequest">
+		<xsd:sequence>
+			<xsd:element name="client" type="xsd:string" />
+			<xsd:element name="organization" type="xsd:string" />
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="productCategory" type="xsd:string" />
+			<xsd:element name="resourceOrPlant" type="xsd:string" />
+			<xsd:element name="workflow" type="xsd:int" />
+			<xsd:element name="warehouse" type="xsd:string" />
+			<xsd:element name="bomFormula" type="xsd:string" />
+			<xsd:element name="priority" type="xsd:string" />
+			<xsd:element name="dateOrdered" type="xsd:dateTime" />
+			<xsd:element name="datePromised" type="xsd:dateTime" />
+			<xsd:element name="dateStartSchedulu" type="xsd:dateTime" />
+			<xsd:element name="dateFinished" type="xsd:dateTime" />
+			<xsd:element name="quantity" type="xsd:int" />
+			<xsd:element name="yield" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="GetDeptAcessRequest"
+		type="tns:GetDeptAcessRequest"></xsd:element>
+	<xsd:complexType name="GetDeptAcessRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="userId" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="GetDeptAcessResponse"
+		type="tns:GetDeptAcessResponse"></xsd:element>
+	<xsd:complexType name="GetDeptAcessResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="count" type="xsd:int" />
+			<xsd:element name="DeptAcess" type="tns:DeptAcess"
+				minOccurs="0" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="DeptAcess">
+		<xsd:sequence>
+			<xsd:element name="deptName" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="MarkShipmentPackedRequest"
+		type="tns:MarkShipmentPackedRequest"></xsd:element>
+	<xsd:complexType name="MarkShipmentPackedRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="status" type="xsd:string" />
+			<xsd:element name="mInoutId" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="GetMOComponentsRequest"
+		type="tns:GetMOComponentsRequest"></xsd:element>
+	<xsd:complexType name="GetMOComponentsRequest">
+		<xsd:sequence>
+		    <xsd:element name="isPackingAndAssembly" type="xsd:boolean" />
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="GetMOComponentsResponse"
+		type="tns:GetMOComponentsResponse"></xsd:element>
+	<xsd:complexType name="GetMOComponentsResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="ProductBom" type="tns:ProductBom"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="warehouseBom" type="tns:warehouseBom"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="Workflow" type="tns:Workflow"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="Priority" type="tns:Priority"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="Machinelist" type="tns:Machinelist"
+				minOccurs="0" maxOccurs="unbounded" />	
+			<xsd:element name = "Agent" type="tns:Agent" minOccurs="0" maxOccurs="unbounded" />	
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+	
+	<xsd:element name="GetMOComponentsNewRequest"
+		type="tns:GetMOComponentsNewRequest"></xsd:element>
+	<xsd:complexType name="GetMOComponentsNewRequest">
+		<xsd:sequence>
+		    <xsd:element name="isPackingAndAssembly" type="xsd:boolean" />
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="GetMOComponentsNewResponse"
+		type="tns:GetMOComponentsNewResponse"></xsd:element>
+	<xsd:complexType name="GetMOComponentsNewResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="ProductBom" type="tns:ProductBom"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="warehouseBom" type="tns:warehouseBom"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="Workflow" type="tns:Workflow"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="Priority" type="tns:Priority"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="Machinelist" type="tns:Machinelist"
+				minOccurs="0" maxOccurs="unbounded" />	
+			<xsd:element name = "Agent" type="tns:Agent" minOccurs="0" maxOccurs="unbounded" />	
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="ProductBom">
+		<xsd:sequence>
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="BomFormula" type="tns:BomFormula"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="BomFormula">
+		<xsd:sequence>
+			<xsd:element name="bomFormulaId" type="xsd:int" />
+			<xsd:element name="bomFormulaName" type="xsd:string" />
+			<xsd:element name="BomComponents" type="tns:BOMComponents"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="warehouseBom">
+		<xsd:sequence>
+			<xsd:element name="warehouseId" type="xsd:int" />
+			<xsd:element name="warehouseName" type="xsd:string" />
+			<xsd:element name="ResourceBom" type="tns:ResourceBom"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ResourceBom">
+		<xsd:sequence>
+			<xsd:element name="resourceId" type="xsd:int" />
+			<xsd:element name="resourceName" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="Workflow">
+		<xsd:sequence>
+			<xsd:element name="workflowId" type="xsd:int" />
+			<xsd:element name="workflowName" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+		<xsd:complexType name="Agent">
+		<xsd:sequence>
+			<xsd:element name="agentId" type="xsd:int" />
+			<xsd:element name="agentName" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="Priority">
+		<xsd:sequence>
+			<xsd:element name="priorityId" type="xsd:int" />
+			<xsd:element name="priorityName" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+		<xsd:complexType name="Machinelist">
+		<xsd:sequence>
+			<xsd:element name="machineConfigId" type="xsd:int" />
+			<xsd:element name="machineName" type="xsd:string" />
+			<xsd:element name="serialNumber" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="CreateMORequest"
+		type="tns:CreateMORequest"></xsd:element>
+	<xsd:complexType name="CreateMORequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="mOrderId" type="xsd:int" />
+			<xsd:element name="status" type="xsd:string" />
+			<xsd:element name="operation" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="machineNo" type="xsd:int" />
+			<xsd:element name="bomFormulaId" type="xsd:int" />
+			<xsd:element name="warehouseId" type="xsd:int" />
+			<xsd:element name="resourceOrPlantId" type="xsd:int" />
+			<xsd:element name="wireLength" type="xsd:int" />
+			<xsd:element name="workflowId" type="xsd:int" />
+			<xsd:element name="priority" type="xsd:string" />
+			<xsd:element name="dateOrdered" type="xsd:dateTime" />
+			<xsd:element name="datePromised" type="xsd:dateTime" />
+			<xsd:element name="dateStartSchedule" type="xsd:dateTime"
+				nillable="true" />
+			<xsd:element name="dateFinished" type="xsd:dateTime" />
+			<xsd:element name="qtyToDeliver" type="xsd:int" />
+			<xsd:element name="qtyRejected" type="xsd:int" />
+			<xsd:element name="isManufacturing" type="xsd:boolean" />
+			<xsd:element name="plannerId" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="CreateMOResponse"
+		type="tns:CreateMOResponse"></xsd:element>
+	<xsd:complexType name="CreateMOResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="documentNo" type="xsd:string" />
+			<xsd:element name="mOrderId" type="xsd:int" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:element name="MOListRequest" type="tns:MOListRequest"></xsd:element>
+	<xsd:complexType name="MOListRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="searchKey" type="xsd:string" />
+			<xsd:element name="pageSize" type="xsd:int" />
+     		<xsd:element name="pageNumber" type="xsd:int" />
+			<xsd:element name="isManufacturing" type="xsd:boolean" />
+			<xsd:element name="status" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="MOListResponse"
+		type="tns:MOListResponse"></xsd:element>
+	<xsd:complexType name="MOListResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="MOList" type="tns:MOList"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:element name="PAOrderRequest"
+		type="tns:PAOrderRequest"></xsd:element>
+	<xsd:complexType name="PAOrderRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="pAOrderId" type="xsd:int" />
+			<xsd:element name="operation" type="xsd:string" />
+			<xsd:element name="status" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="quantity" type="xsd:int" />
+			<xsd:element name="contractorId" type="xsd:int" />
+			<xsd:element name="packagingOrder" type="xsd:boolean" />
+			<xsd:element name="processed" type="xsd:boolean" />
+			<xsd:element name="isRMPicked" type="xsd:boolean" />
+			<xsd:element name="isAutomation" type="xsd:boolean" />
+			<xsd:element name="statusLine" type="xsd:string" />
+			<xsd:element name="packingQty" type="xsd:int" />
+			<xsd:element name="receivedQty" type="xsd:int" />
+			<xsd:element name="isReceived" type="xsd:boolean" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:element name="PAOrderListRequest"
+		type="tns:PAOrderListRequest"></xsd:element>
+	<xsd:complexType name="PAOrderListRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="searchKey" type="xsd:string" />
+			<xsd:element name="pageSize" type="xsd:int" />
+			<xsd:element name="pageNumber" type="xsd:int" />
+			<xsd:element name="isPackagingOrder" type="xsd:boolean" />
+			<xsd:element name="status" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="PAOrderListResponse"
+		type="tns:PAOrderListResponse"></xsd:element>
+	<xsd:complexType name="PAOrderListResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="PAOrderList" type="tns:PAOrderList"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="PAOrderList">
+		<xsd:sequence>
+			<xsd:element name="pAOrderId" type="xsd:int" />
+			<xsd:element name="status" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="productname" type="xsd:string" />
+			<xsd:element name="quantity" type="xsd:int" />
+			<xsd:element name="contractorId" type="xsd:int" />
+			<xsd:element name="contractorName" type="xsd:string" />
+			<xsd:element name="packagingOrder" type="xsd:boolean" />
+			<xsd:element name="processed" type="xsd:boolean" />
+			<xsd:element name="dateOrdered" type="xsd:dateTime" />
+			<xsd:element name="isRMPicked" type="xsd:boolean" />
+			<xsd:element name="packingQty" type="xsd:int" />
+			<xsd:element name="pendingQty" type="xsd:int" />
+			<xsd:element name="receivedQty" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:element name="PAOrderDetailRequest"
+		type="tns:PAOrderDetailRequest"></xsd:element>
+	<xsd:complexType name="PAOrderDetailRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="pAOrderId" type="xsd:int" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="PAOrderDetailResponse"
+		type="tns:PAOrderDetailResponse"></xsd:element>
+	<xsd:complexType name="PAOrderDetailResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="PAOrderId" type="xsd:int" />
+			<xsd:element name="status" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="productname" type="xsd:string" />
+			<xsd:element name="boxQty" type="xsd:int" />
+			<xsd:element name="scanLabel" type="xsd:boolean" />
+			<xsd:element name="quantity" type="xsd:int" />
+			<xsd:element name="contractorId" type="xsd:int" />
+			<xsd:element name="contractorName" type="xsd:string" />
+			<xsd:element name="packagingOrder" type="xsd:boolean" />
+			<xsd:element name="processed" type="xsd:boolean" />
+			<xsd:element name="dateOrdered" type="xsd:dateTime" />
+			<xsd:element name="receivingLocatorId" type="xsd:int" />
+			<xsd:element name="isAutomation" type="xsd:boolean" />
+			<xsd:element name="packingQty" type="xsd:int" />
+			<xsd:element name="pendingQty" type="xsd:int" />
+			<xsd:element name="receivedQty" type="xsd:int" />
+			<xsd:element name="BOMComponents"
+				type="tns:BOMComponents" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>	
+	
+	<xsd:element name="OrderReceiptListRequest" type="tns:OrderReceiptListRequest"></xsd:element>
+	<xsd:complexType name="OrderReceiptListRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="searchKey" type="xsd:string" />
+			<xsd:element name="status" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:element name="UpdateOrderReceipt" type="tns:UpdateOrderReceipt"></xsd:element>
+	<xsd:complexType name="UpdateOrderReceipt">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="orderreceiptId" type="xsd:int" />
+			<xsd:element name="transferDeptId" type="xsd:int" />
+			<xsd:element name="status" type="xsd:string" />
+			<xsd:element name="processed" type="xsd:boolean" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:element name="OrderReceiptListResponse"
+	type="tns:OrderReceiptListResponse"></xsd:element>
+	<xsd:complexType name="OrderReceiptListResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="ReceiptLines"
+				type="tns:ReceiptLines" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+	
+	<xsd:complexType name="ReceiptLines">
+		<xsd:sequence>
+			<xsd:element name="orderreceiptId" type="xsd:int" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="quantity" type="xsd:int" />
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="warehouseId" type="xsd:int" />
+			<xsd:element name="warehouseName" type="xsd:string" />
+			<xsd:element name="orderId" type="xsd:int" />
+			<xsd:element name="orderDocumentNo" type="xsd:string" />
+			<xsd:element name="locatorId" type="xsd:int" />
+			<xsd:element name="deptTransfer" type="xsd:boolean" />
+			<xsd:element name="processed" type="xsd:boolean" />
+			<xsd:element name="transferDeptId" type="xsd:int" />
+			<xsd:element name="transferDeptName" type="xsd:string" />
+			<xsd:element name="dateOrdered" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="MOList">
+		<xsd:sequence>
+			<xsd:element name="mOrderId" type="xsd:int" />
+			<xsd:element name="documentNumber" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="workflowId" type="xsd:int" />
+			<xsd:element name="workflowName" type="xsd:string" />
+			<xsd:element name="warehouseId" type="xsd:int" />
+			<xsd:element name="priority" type="xsd:string" />
+			<xsd:element name="dateOrdered" type="xsd:dateTime" />
+			<xsd:element name="datePromised" type="xsd:dateTime" />
+			<xsd:element name="dateStartSchedule" type="xsd:dateTime" />
+			<xsd:element name="dateFinished" type="xsd:dateTime" />
+			<xsd:element name="qtyEntered" type="xsd:int" />
+			<xsd:element name="qtyDelivered" type="xsd:int" />
+			<xsd:element name="qtyToDeliver" type="xsd:int" />			
+			<xsd:element name="toMarkForComplete" type="xsd:boolean" />
+			<xsd:element name="compleAction" type="xsd:boolean" />
+			<xsd:element name="createReceipt" type="xsd:boolean" />
+			<xsd:element name="isManufacturing" type="xsd:boolean" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="MODetailRequest" type="tns:MODetailRequest"></xsd:element>
+	<xsd:complexType name="MODetailRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="mOrderId" type="xsd:int" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="MODetailResponse" type="tns:MODetailResponse"></xsd:element>
+	<xsd:complexType name="MODetailResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="mOrderId" type="xsd:int" />
+			<xsd:element name="documentNumber" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="workflowId" type="xsd:int" />
+			<xsd:element name="workflowName" type="xsd:string" />
+			<xsd:element name="bomId" type="xsd:int" />
+			<xsd:element name="bomName" type="xsd:string" />
+			<xsd:element name="resourceId" type="xsd:int" />
+			<xsd:element name="resourceName" type="xsd:string" />
+			<xsd:element name="warehouseId" type="xsd:int" />
+			<xsd:element name="priority" type="xsd:string" />
+			<xsd:element name="dateOrdered" type="xsd:dateTime" />
+			<xsd:element name="datePromised" type="xsd:dateTime" />
+			<xsd:element name="dateStartSchedule" type="xsd:dateTime" />
+			<xsd:element name="dateFinished" type="xsd:dateTime" />
+			<xsd:element name="qtyEntered" type="xsd:int" />
+			<xsd:element name="qtyDelivered" type="xsd:int" />
+			<xsd:element name="qtyToDeliver" type="xsd:int" />
+			<xsd:element name="isProductionAgent" type="xsd:boolean" />
+			<xsd:element name="locatorId" type="xsd:int" />
+			<xsd:element name="machineNo" type="xsd:int" />
+			<xsd:element name="OrderBom" type="tns:OrderBom"
+				minOccurs="0" maxOccurs="1" />
+			<xsd:element name="plannerId" type="xsd:int" />
+			<xsd:element name="plannerName" type="xsd:string" />
+			<xsd:element name="wireLength" type="xsd:int" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+	
+	<xsd:element name="CompleteMOOrderRequest"
+		type="tns:CompleteMOOrderRequest"></xsd:element>
+	<xsd:complexType name="CompleteMOOrderRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="status" type="xsd:string" />
+			<xsd:element name="mOrderId" type="xsd:int" />
+			<xsd:element name="movementdate" type="xsd:dateTime" />
+			<xsd:element name="locatorId" type="xsd:int" />
+			<xsd:element name="qtyToDeliver" type="xsd:int" />
+			<xsd:element name="qtyToScrap" type="xsd:int" />
+			<xsd:element name="qtyRejected" type="xsd:int" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="OrderBom">
+		<xsd:sequence>
+			<xsd:element name="orderBomId" type="xsd:int" />
+			<xsd:element name="searchKey" type="xsd:string" />
+			<xsd:element name="name" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="OrderBomComponents"
+				type="tns:OrderBomComponents" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="OrderBomComponents">
+		<xsd:sequence>
+			<xsd:element name="orderBomLineId" type="xsd:int" />
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="quantity" type="xsd:float" />
+			<xsd:element name="quantityAvailable" type="xsd:int" />
+			<xsd:element name="departName" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="ADLoginRequest"
+		type="tns:ADLoginRequest" />
+	<xsd:element name="ADLoginResponse"
+		type="tns:ADLoginResponse" />
+
+	<xsd:complexType name="ADLoginRequest">
+		<xsd:sequence>
+			<xsd:element name="user" type="xsd:string" />
+			<xsd:element name="pass" type="xsd:string" />
+			<xsd:element name="lang" type="xsd:string" />
+			<xsd:element name="ClientID" type="xsd:int" />
+			<xsd:element name="RoleID" type="xsd:int" />
+			<xsd:element name="OrgID" type="xsd:int" />
+			<xsd:element name="WarehouseID" type="xsd:int" />
+			<xsd:element name="stage" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ADLoginResponse">
+		<xsd:sequence>
+			<xsd:element name="status" type="xsd:int" />
+			<xsd:element name="roles" type="tns:LookupValues" />
+			<xsd:element name="langs" type="tns:LookupValues" />
+			<xsd:element name="orgs" type="tns:LookupValues" />
+			<xsd:element name="clients" type="tns:LookupValues" />
+			<xsd:element name="warehouses" type="tns:LookupValues" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="StandardResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+		<xsd:attribute name="IsRolledBack" type="xsd:boolean" />
+		<xsd:attribute name="RecordID" type="xsd:int" />
+	</xsd:complexType>
+
+	<xsd:complexType name="outputFields">
+		<xsd:sequence>
+			<xsd:element name="outputField" type="tns:outputField"
+				maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="outputField">
+		<xsd:attribute name="column" type="xsd:string" />
+		<xsd:attribute name="value" type="xsd:string" />
+		<xsd:attribute name="Text" type="xsd:string" />
+	</xsd:complexType>
+
+
+	<xsd:element name="StandardResponse"
+		type="tns:StandardResponse" />
+
+
+	<xsd:element name="ModelSetDocActionRequest"
+		type="tns:ModelSetDocActionRequest" />
+
+	<xsd:complexType name="ModelSetDocAction">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="tableName" type="xsd:string" />
+			<xsd:element name="recordID" type="xsd:int" />
+			<xsd:element name="recordIDVariable" type="xsd:string"
+				minOccurs="0" />
+			<xsd:element name="docAction" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ModelSetDocActionRequest">
+		<xsd:sequence>
+			<xsd:element name="ModelSetDocAction"
+				type="tns:ModelSetDocAction" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+
+	<xsd:complexType name="operations">
+		<xsd:sequence>
+			<xsd:element name="operation" type="tns:operation"
+				minOccurs="1" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="operation">
+		<xsd:sequence>
+			<xsd:element name="TargetPort">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="createData"></xsd:enumeration>
+						<xsd:enumeration value="readData"></xsd:enumeration>
+						<xsd:enumeration value="updateData"></xsd:enumeration>
+						<xsd:enumeration value="deleteData"></xsd:enumeration>
+						<xsd:enumeration value="runProcess"></xsd:enumeration>
+						<xsd:enumeration value="setDocAction"></xsd:enumeration>
+						<xsd:enumeration value="createUpdateData"></xsd:enumeration>
+						<xsd:enumeration value="loginApi"></xsd:enumeration>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="ModelSetDocAction"
+				type="tns:ModelSetDocAction" minOccurs="0"></xsd:element>
+			<xsd:element name="LoginApiRequest"
+				type="tns:LoginApiRequest" minOccurs="0"></xsd:element>
+			<xsd:element name="LoginApiResponse"
+				type="tns:LoginApiResponse" minOccurs="0"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="preCommit" type="xsd:boolean"
+			default="false"></xsd:attribute>
+		<xsd:attribute name="postCommit" type="xsd:boolean"
+			default="false"></xsd:attribute>
+	</xsd:complexType>
+	<xsd:element name="CompositeRequest"
+		type="tns:CompositeRequest"></xsd:element>
+	<xsd:complexType name="CompositeRequest">
+		<xsd:sequence>
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest"></xsd:element>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="operations" type="tns:operations"
+				maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:element name="CompositeResponses"
+		type="tns:CompositeResponses"></xsd:element>
+
+	<xsd:complexType name="CompositeResponses">
+		<xsd:sequence>
+			<xsd:element name="CompositeResponse"
+				type="tns:CompositeResponse" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="CompositeResponse">
+		<xsd:sequence>
+			<xsd:element name="StandardResponse"
+				type="tns:StandardResponse" minOccurs="1" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="LoginApiRequest"
+		type="tns:LoginApiRequest"></xsd:element>
+	<xsd:element name="LoginApiResponse"
+		type="tns:LoginApiResponse"></xsd:element>
+	<xsd:element name="RoleConfigureRequest"
+		type="tns:RoleConfigureRequest"></xsd:element>
+	<xsd:element name="RoleConfigureResponse"
+		type="tns:RoleConfigureResponse"></xsd:element>
+	<xsd:element name="POListRequest" type="tns:POListRequest"></xsd:element>
+	<xsd:element name="MRListRequest" type="tns:MRListRequest"></xsd:element>
+	<xsd:element name="QCListRequest" type="tns:QCListRequest"></xsd:element>
+	<xsd:element name="POListResponse"
+		type="tns:POListResponse"></xsd:element>
+	<xsd:element name="PODataRequest" type="tns:PODataRequest"></xsd:element>
+	<xsd:element name="PODataResponse"
+		type="tns:PODataResponse"></xsd:element>
+	<xsd:element name="CreateMRRequest"
+		type="tns:CreateMRRequest"></xsd:element>
+	<xsd:element name="CreateMRResponse"
+		type="tns:CreateMRResponse"></xsd:element>
+	<xsd:element name="MRListResponse"
+		type="tns:MRListResponse"></xsd:element>
+	<xsd:element name="MRDataResponse"
+		type="tns:MRDataResponse"></xsd:element>
+	<xsd:element name="MRFailedRequest"
+		type="tns:MRFailedRequest"></xsd:element>
+	<xsd:element name="MRFailedResponce"
+		type="tns:MRFailedResponce"></xsd:element>
+	<xsd:element name="PIListRequest" type="tns:PIListRequest"></xsd:element>
+	<xsd:element name="PIListResponse"
+		type="tns:PIListResponse"></xsd:element>
+	<xsd:element name="pIDeatilsResponse"
+		type="tns:pIDeatilsResponse"></xsd:element>
+	<xsd:element name="pIDeatilsRequest"
+		type="tns:pIDeatilsRequest"></xsd:element>
+	<xsd:element name="PIQtyChangeResponse"
+		type="tns:PIQtyChangeResponse"></xsd:element>
+	<xsd:element name="PIQtyChangeRequest"
+		type="tns:PIQtyChangeRequest"></xsd:element>
+	<xsd:element name="SOListRequest" type="tns:SOListRequest"></xsd:element>
+	<xsd:element name="SOListResponse"
+		type="tns:SOListResponse"></xsd:element>
+	<xsd:element name="SODetailRequest"
+		type="tns:SODetailRequest"></xsd:element>
+	<xsd:element name="SODetailResponse"
+		type="tns:SODetailResponse"></xsd:element>
+	<xsd:element name="CreateSCRequest"
+		type="tns:CreateSCRequest"></xsd:element>
+	<xsd:element name="CreateSCResponse"
+		type="tns:CreateSCResponse"></xsd:element>
+	<xsd:element name="GeneratePalletDetailsRequest"
+		type="tns:GeneratePalletDetailsRequest"></xsd:element>
+	<xsd:element name="GeneratePalletDetailsResponse"
+		type="tns:GeneratePalletDetailsResponse"></xsd:element>
+	<xsd:element name="GetQRDataResponse"
+		type="tns:GetQRDataResponse"></xsd:element>
+	<xsd:element name="GetQRDataRequest"
+		type="tns:GetQRDataRequest"></xsd:element>
+	<xsd:element name="LinkOrUnlinkPalletRequest"
+		type="tns:LinkOrUnlinkPalletRequest"></xsd:element>
+	<xsd:element name="LocatorSuggestionRequest"
+		type="tns:LocatorSuggestionRequest"></xsd:element>
+	<xsd:element name="LocatorSuggestionResponse"
+		type="tns:LocatorSuggestionResponse"></xsd:element>
+	<xsd:element name="QcCOListResponse"
+		type="tns:QcCOListResponse"></xsd:element>
+	<xsd:element name="QcDataResponse"
+		type="tns:QcDataResponse"></xsd:element>
+	<xsd:element name="MarkMRQcCheckedRequest"
+		type="tns:MarkMRQcCheckedRequest"></xsd:element>
+	<xsd:element name="UpdateMrRequest"
+		type="tns:UpdateMrRequest"></xsd:element>
+	<xsd:element name="DToCResponse" type="tns:DToCResponse"></xsd:element>
+	<xsd:element name="DToCRequest" type="tns:DToCRequest"></xsd:element>
+	<xsd:element name="WarehouseLocatorListRequest"
+		type="tns:WarehouseLocatorListRequest"></xsd:element>
+	<xsd:element name="WarehouseLocatorListResponse"
+		type="tns:WarehouseLocatorListResponse"></xsd:element>
+	<xsd:element name="PickListDetailResponse"
+		type="tns:PickListDetailResponse"></xsd:element>
+	<xsd:element name="MarkSOPickedequest"
+		type="tns:MarkSOPickedequest"></xsd:element>
+	<xsd:element name="SOOrderStatusResponse"
+		type="tns:SOOrderStatusResponse"></xsd:element>
+	<xsd:element name="SOOrderStatusRequest"
+		type="tns:SOOrderStatusRequest"></xsd:element>
+	<xsd:element name="GetMInoutForCOrderResponse"
+		type="tns:GetMInoutForCOrderResponse"></xsd:element>
+	<xsd:element name="GetMInoutForCOrderRequest"
+		type="tns:GetMInoutForCOrderRequest"></xsd:element>
+	<xsd:element name="GenerateProductLabelRequest"
+		type="tns:GenerateProductLabelRequest"></xsd:element>
+	<xsd:element name="GenerateProductLabelResponse"
+		type="tns:GenerateProductLabelResponse"></xsd:element>
+	<xsd:element name="GetLabelDataRequest"
+		type="tns:GetLabelDataRequest"></xsd:element>
+	<xsd:element name="GetLabelDataResponse"
+		type="tns:GetLabelDataResponse"></xsd:element>
+	<xsd:element name="putAwayRequest"
+		type="tns:putAwayRequest"></xsd:element>
+	<xsd:element name="LocatorDeatilRequest"
+		type="tns:LocatorDeatilRequest"></xsd:element>
+	<xsd:element name="LocatorDeatilResponse"
+		type="tns:LocatorDeatilResponse"></xsd:element>
+	<xsd:element name="putAwayListRequest"
+		type="tns:putAwayListRequest"></xsd:element>
+	<xsd:element name="putAwayListResponse"
+		type="tns:putAwayListResponse"></xsd:element>
+	<xsd:element name="putAwayDetailRequest"
+		type="tns:putAwayDetailRequest"></xsd:element>
+	<xsd:element name="putAwayDetailResponse"
+		type="tns:putAwayDetailResponse"></xsd:element>
+	<xsd:element name="putAwayLabourRequest"
+		type="tns:putAwayLabourRequest"></xsd:element>
+	<xsd:element name="putAwayLabourResponse"
+		type="tns:putAwayLabourResponse"></xsd:element>
+	<xsd:element name="ShipmentReceiptByScanRequest"
+		type="tns:ShipmentReceiptByScanRequest"></xsd:element>
+	<xsd:element name="PickListLabourRequest"
+		type="tns:PickListLabourRequest"></xsd:element>
+	<xsd:element name="PickListLabourResponse"
+		type="tns:PickListLabourResponse"></xsd:element>
+	<xsd:element name="PickDetailLabourRequest"
+		type="tns:PickDetailLabourRequest"></xsd:element>
+	<xsd:element name="PickDetailLabourResponse"
+		type="tns:PickDetailLabourResponse"></xsd:element>
+	<xsd:element name="MarkSOToPickRequest"
+		type="tns:MarkSOToPickRequest"></xsd:element>
+	<xsd:element name="ShipperListResponse"
+		type="tns:ShipperListResponse"></xsd:element>
+	<xsd:element name="ShipperListRequest"
+		type="tns:ShipperListRequest"></xsd:element>
+	<xsd:element name="UpdateShipmentRequest"
+		type="tns:UpdateShipmentRequest"></xsd:element>
+	<xsd:element name="GetIsUserActiveRequest"
+		type="tns:GetIsUserActiveRequest"></xsd:element>
+	<xsd:element name="CreateNoticeRequest"
+		type="tns:CreateNoticeRequest"></xsd:element>
+	<xsd:element name="CleanUpDataRequest" type="tns:CleanUpDataRequest"></xsd:element>
+	<xsd:element name="CleanUpDataResponse" type="tns:CleanUpDataResponse"></xsd:element>
+	<xsd:element name="BPartnerListRequest" type="tns:BPartnerListRequest"></xsd:element>
+	<xsd:element name="BPartnerListResponse" type="tns:BPartnerListResponse"></xsd:element>
+	<xsd:element name="CreateSalesOrderRequest" type="tns:CreateSalesOrderRequest"></xsd:element>
+	<xsd:element name="CreateSalesOrderResponse" type="tns:CreateSalesOrderResponse"></xsd:element>
+	<xsd:element name="UpdateSalesOrderRequest" type="tns:UpdateSalesOrderRequest"></xsd:element>
+	<xsd:element name="UpdateSalesOrderResponse" type="tns:UpdateSalesOrderResponse"></xsd:element>
+	<xsd:element name="DiscardProductLabelRequest" type="tns:DiscardProductLabelRequest"></xsd:element>
+	<xsd:element name="CreatePurchaseOrderResponse" type="tns:CreatePurchaseOrderResponse"></xsd:element>
+	<xsd:element name="CreatePurchaseOrderRequest" type="tns:CreatePurchaseOrderRequest"></xsd:element>
+
+	<xsd:complexType name="LoginApiRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="user" type="xsd:string" />
+			<xsd:element name="password" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="LoginApiResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="userType" type="xsd:string" />
+			<xsd:element name="Client" type="tns:Client"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:element name="Client" type="tns:Client"></xsd:element>
+	<xsd:element name="Role" type="tns:Role"></xsd:element>
+	<xsd:element name="Organization" type="tns:Organization"></xsd:element>
+	<xsd:element name="Warehouse" type="tns:Warehouse"></xsd:element>
+
+	<xsd:complexType name="Client">
+		<xsd:sequence>
+			<xsd:element name="clientId" type="xsd:string" />
+			<xsd:element name="client" type="xsd:string" />
+			<xsd:element name="roleList" type="tns:Role"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="Role">
+		<xsd:sequence>
+			<xsd:element name="roleId" type="xsd:string" />
+			<xsd:element name="role" type="xsd:string" />
+			<xsd:element name="orgList" type="tns:Organization"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="Organization">
+		<xsd:sequence>
+			<xsd:element name="orgId" type="xsd:string" />
+			<xsd:element name="org" type="xsd:string" />
+			<xsd:element name="Warehouse" type="tns:Warehouse"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="Warehouse">
+		<xsd:sequence>
+			<xsd:element name="warehouseId" type="xsd:string" />
+			<xsd:element name="warehouse" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="RoleConfigureRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="deviceToken" type="xsd:string" />
+			<xsd:element name="deviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="RoleConfigureResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="appAcess" type="tns:RoleAppAcess"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="RoleAppAcess">
+		<xsd:sequence>
+			<xsd:element name="appName" type="xsd:string" />
+			<xsd:element name="appAcess" type="xsd:boolean" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="POListRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="searchKey" type="xsd:string" />
+			<xsd:element name="pageSize" type="xsd:int" />
+     		<xsd:element name="pageNumber" type="xsd:int" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="MRListRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="searchKey" type="xsd:string" />
+			<xsd:element name="pageSize" type="xsd:int" />
+     		<xsd:element name="pageNumber" type="xsd:int" />
+			<xsd:element name="isSalesTransaction" type="xsd:string" />
+			<xsd:element name="status" type="xsd:string" />
+			<xsd:element name="isCourier" type="xsd:boolean" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="QCListRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="searchKey" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="POListResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="ListAccess" type="tns:POListAccess"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="POListAccess">
+		<xsd:sequence>
+			<xsd:element name="cOrderId" type="xsd:string" />
+			<xsd:element name="documentNumber" type="xsd:string" />
+			<xsd:element name="supplierName" type="xsd:string" />
+			<xsd:element name="orderDate" type="xsd:string" />
+			<xsd:element name="WarehouseName" type="xsd:string" />
+			<xsd:element name="Description" type="xsd:string" />
+			<xsd:element name="ProductName" type="xsd:string" />
+			<xsd:element name="OrderQTY" type="xsd:int" />
+			<xsd:element name="orderStatus" type="xsd:boolean" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="PODataRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="documentNo" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="GetMInoutForCOrderRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="cOrderId" type="xsd:int" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="GetMInoutForCOrderResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="MRDataResponse"
+				type="tns:MRDataResponse" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="PODataResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="documentNo" type="xsd:string" />
+			<xsd:element name="cOrderId" type="xsd:int" />
+			<xsd:element name="docstatus" type="xsd:string" />
+			<xsd:element name="orderDate" type="xsd:string" />
+			<xsd:element name="supplier" type="xsd:string" />
+			<xsd:element name="warehouseName" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="orderStatus" type="xsd:boolean" />
+			<xsd:element name="overallQnty" type="xsd:int" />
+			<xsd:element name="defaultLocatorId" type="xsd:int" />
+			<xsd:element name="ProductData" type="tns:ProductData"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="ProductData">
+		<xsd:sequence>
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="productCount" type="xsd:int" />
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="cOrderlineId" type="xsd:int" />
+			<xsd:element name="uomId" type="xsd:int" />
+			<xsd:element name="remainingQntyToPick" type="xsd:int" />
+			<xsd:element name="OutstandingQnty" type="xsd:int" />
+			<xsd:element name="totalQuantity" type="xsd:int" />
+			<xsd:element name="suggestedLocator" type="xsd:int" />
+			<xsd:element name="locatorName" type="xsd:string" />
+			<xsd:element name="scanLabel" type="xsd:boolean" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+		<xsd:complexType name="soDetailProductData">
+		<xsd:sequence>
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="cOrderlineId" type="xsd:int" />
+			<xsd:element name="uomId" type="xsd:int" />
+			<xsd:element name="remainingQntyToPick" type="xsd:int" />
+			<xsd:element name="OutstandingQnty" type="xsd:int" />
+			<xsd:element name="totalQuantity" type="xsd:int" />
+			<xsd:element name="qntyAvailableInLocator" type="tns:qntyAvailableInLocator"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+			<xsd:complexType name="qntyAvailableInLocator">
+		<xsd:sequence>
+			<xsd:element name="quantityAvailable" type="xsd:int" />
+			<xsd:element name="locatorId" type="xsd:int" />
+			<xsd:element name="locatorName" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	
+
+	<xsd:complexType name="CreateMRRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="cOrderId" type="xsd:int" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="mRLines" type="tns:MRLines"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="MRLines">
+		<xsd:sequence>
+			<xsd:element name="mrLineId" type="xsd:int" />
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="cOrderlineId" type="xsd:int" />
+			<xsd:element name="uomId" type="xsd:int" />
+			<xsd:element name="qnty" type="xsd:int" />
+			<xsd:element name="locator" type="xsd:int" />
+			<xsd:element name="locatorName" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="CreateMRResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="mrDocumentNumber" type="xsd:string" />
+			<xsd:element name="mrId" type="xsd:int" />
+			<xsd:element name="mRLines" type="tns:MRLines"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="MRListResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="count" type="xsd:int" minOccurs="0" />
+			<xsd:element name="MRList" type="tns:MRList"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="MRList">
+		<xsd:sequence>
+			<xsd:element name="documentNo" type="xsd:string" />
+			<xsd:element name="mInoutID" type="xsd:string" />
+			<xsd:element name="orderDate" type="xsd:string" />
+			<xsd:element name="orderDocumentno" type="xsd:string" />
+			<xsd:element name="supplier" type="xsd:string" />
+			<xsd:element name="warehouseName" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="isCourier" type="xsd:boolean" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="MRDataResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="mInoutID" type="xsd:int" />
+			<xsd:element name="cOrderId" type="xsd:int" />
+			<xsd:element name="documentNo" type="xsd:string" />
+			<xsd:element name="docStatus" type="xsd:string" />
+			<xsd:element name="orderDate" type="xsd:string" />
+			<xsd:element name="supplier" type="xsd:string" />
+			<xsd:element name="supplierLocationName"
+				type="xsd:string" />
+			<xsd:element name="warehouseName" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="overallQnty" type="xsd:int" />
+			<xsd:element name="orderDocumentno" type="xsd:string" />
+			<xsd:element name="areaMarking" type="xsd:string" />
+			<xsd:element name="isCourier" type="xsd:boolean" />
+			<xsd:element name="MRLines" type="tns:MRLine"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="MRLine">
+		<xsd:sequence>
+			<xsd:element name="mRLineId" type="xsd:int" />
+			<xsd:element name="cOrderlineId" type="xsd:int" />
+			<xsd:element name="recievedQnty" type="xsd:int" />
+			<xsd:element name="productID" type="xsd:int" />
+			<xsd:element name="uomID" type="xsd:int" />
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="locatorId" type="xsd:int" />
+			<xsd:element name="locatorName" type="xsd:string" />
+			<xsd:element name="dispatchedQty" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="MRFailedRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="mInOutID" type="xsd:int" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="mRFailedLines"
+				type="tns:MRFailedLines" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="MRFailedLines">
+		<xsd:sequence>
+			<xsd:element name="mInOutLineId" type="xsd:int" />
+			<xsd:element name="failedQty" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="MRFailedResponce">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="createConfirmationDocumentNumber"
+				type="xsd:string" />
+			<xsd:element name="createConfirmationId" type="xsd:int" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="PIListRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="searchKey" type="xsd:string" />
+			<xsd:element name="pageSize" type="xsd:int" />
+     		<xsd:element name="pageNumber" type="xsd:int" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="PIListResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="count" type="xsd:int" minOccurs="0" />
+			<xsd:element name="PIList" type="tns:PIList"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="PIList">
+		<xsd:sequence>
+			<xsd:element name="documentNo" type="xsd:string" />
+			<xsd:element name="mInventoryId" type="xsd:string" />
+			<xsd:element name="orderDate" type="xsd:string" />
+			<xsd:element name="orgName" type="xsd:string" />
+			<xsd:element name="warehouseName" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="pIDeatilsRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="mInventoryId" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="pIDeatilsResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="piId" type="xsd:int" />
+			<xsd:element name="documentNo" type="xsd:string" />
+			<xsd:element name="mInventoryId" type="xsd:string" />
+			<xsd:element name="orderDate" type="xsd:string" />
+			<xsd:element name="orgName" type="xsd:string" />
+			<xsd:element name="warehouseName" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="pIDetailsLines"
+				type="tns:pIDetailsLine" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="pIDetailsLine">
+		<xsd:sequence>
+			<xsd:element name="locatorId" type="xsd:int" />
+			<xsd:element name="locatorName" type="xsd:string" />
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="qtyCount" type="xsd:int" />
+			<xsd:element name="qntyBook" type="xsd:int" />
+			<xsd:element name="piLineId" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="PIQtyChangeRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="mInventoryId" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="PILines" type="tns:PILines"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="PILines">
+		<xsd:sequence>
+			<xsd:element name="mInventoryLineId" type="xsd:int" />
+			<xsd:element name="countQty" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="PIQtyChangeResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="SOListRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="searchKey" type="xsd:string" />
+			<xsd:element name="pageSize" type="xsd:int" />
+     		<xsd:element name="pageNumber" type="xsd:int" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="SOListResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="count" type="xsd:int" minOccurs="0" />
+			<xsd:element name="ListAccess" type="tns:SOListAccess"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="SOListAccess">
+		<xsd:sequence>
+			<xsd:element name="documentNumber" type="xsd:string" />
+			<xsd:element name="cOrderId" type="xsd:string" />
+			<xsd:element name="customerName" type="xsd:string" />
+			<xsd:element name="orderDate" type="xsd:string" />
+			<xsd:element name="warehouseId" type="xsd:int" />
+			<xsd:element name="WarehouseName" type="xsd:string" />
+			<xsd:element name="Description" type="xsd:string" />
+			<xsd:element name="salesOrderStatus" type="xsd:boolean" />
+			<xsd:element name="remainingQuantityToPick" type="xsd:int" />
+			<xsd:element name="quantityPicked" type="xsd:int" />
+			<xsd:element name="quantityTotal" type="xsd:int" />
+			<xsd:element name="status" type="xsd:string" />
+			<xsd:element name="isCourier" type="xsd:boolean" />
+			<xsd:element name="isMobileOrder" type="xsd:boolean" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="SODetailRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="documentNo" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="SODetailResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="documentNo" type="xsd:string" />
+			<xsd:element name="docStatus" type="xsd:string" />
+			<xsd:element name="cOrderId" type="xsd:int" />
+			<xsd:element name="orderDate" type="xsd:string" />
+			<xsd:element name="customer" type="xsd:string" />
+			<xsd:element name="warehouseName" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="orderStatus" type="xsd:boolean" />
+			<xsd:element name="locationName" type="xsd:string" />
+			<xsd:element name="quantityPicked" type="xsd:int" />
+			<xsd:element name="dispatchLocatorName" type="xsd:string" />
+			<xsd:element name="dispatchLocatorId" type="xsd:int" />
+			<xsd:element name="quantityTotal" type="xsd:int" />
+			<xsd:element name="isCourier" type="xsd:boolean" />
+			<xsd:element name="isMobileOrder" type="xsd:boolean" />
+			<xsd:element name="ProductData" type="tns:soDetailProductData"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="CreateSCRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="areaMarking" type="xsd:string" />
+			<xsd:element name="status" type="xsd:string" />
+			<xsd:element name="cOrderId" type="xsd:int" />
+			<xsd:element name="moveInventory" type="xsd:boolean" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="shipmentLines"
+				type="tns:ShipmentLines" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+			<xsd:element name="putAwayLine" type="tns:putAwayLine"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ShipmentLines">
+		<xsd:sequence>
+			<xsd:element name="mRLineId" type="xsd:int" />
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="cOrderlineId" type="xsd:int" />
+			<xsd:element name="uomId" type="xsd:int" />
+			<xsd:element name="qnty" type="xsd:int" />
+			<xsd:element name="locator" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="CreateSCResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="shipmentDocumentNumber"
+				type="xsd:string" />
+			<xsd:element name="shipmentId" type="xsd:int" />
+			<xsd:element name="shipmentLines"
+				type="tns:ShipmentLines" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="GeneratePalletDetailsRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="palletLines" type="tns:PalletLines"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="PalletLines">
+		<xsd:sequence>
+			<xsd:element name="palletUUId" type="xsd:string" />
+			<xsd:element name="cOrderlineId" type="xsd:int" />
+			<xsd:element name="mrlineId" type="xsd:int" />
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="locatorId" type="xsd:int" />
+			<xsd:element name="isShippedOut" type="xsd:boolean" />
+			<xsd:element name="status" type="xsd:string" />
+			<xsd:element name="qnty" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="GeneratePalletDetailsResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="locatorId" type="xsd:int" />
+			<xsd:element name="palletUUId" type="xsd:string" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="GenerateProductLabelRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="isManufacturing" type="xsd:boolean" />
+			<xsd:element name="isAssembly" type="xsd:boolean" />
+			<xsd:element name="isLightProduction" type="xsd:boolean" />
+			<xsd:element name="finalDispatch" type="xsd:boolean" />
+	        <xsd:element name="mInoutId" type="xsd:int" />
+	        <xsd:element name="status" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="ProductLabelLine"
+				type="tns:ProductLabelLine" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="GenerateProductLabelResponse">
+	<xsd:sequence>
+		<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+		<xsd:element name="ProductLabelLine"
+			type="tns:ProductLabelLine" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+	</xsd:sequence>
+	<xsd:attribute name="IsError" type="xsd:boolean" />
+</xsd:complexType>
+
+	<xsd:complexType name="ProductLabelLine">
+		<xsd:sequence>
+			<xsd:element name="labelId" type="xsd:int" />
+			<xsd:element name="productLabelUUId" type="xsd:string" />
+			<xsd:element name="cOrderlineId" type="xsd:int" />
+			<xsd:element name="mInoutlineId" type="xsd:int" />
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="locatorId" type="xsd:int" />
+			<xsd:element name="locatorName" type="xsd:string" />
+			<xsd:element name="status" type="xsd:string" />
+			<xsd:element name="quantity" type="xsd:int" />
+			<xsd:element name="qcPassed" type="xsd:boolean" />
+			<xsd:element name="finalDispatch" type="xsd:boolean" />
+			<xsd:element name="isSalesTransaction" type="xsd:boolean" />
+			<xsd:element name="ppOrderId" type="xsd:int" />
+			<xsd:element name="pAOrderId" type="xsd:int" />
+			<xsd:element name="ppOrderReceiptId" type="xsd:int" />
+			<xsd:element name="warehouseId" type="xsd:int" />
+			<xsd:element name="warehouseName" type="xsd:string" />
+			<xsd:element name="labelTypeId" type="xsd:int" />
+			<xsd:element name="labelType" type="xsd:string" />
+			<xsd:element name="parentLabel" type="xsd:int" />
+			<xsd:element name="reason" type="xsd:string" />
+			<xsd:element name="labelLine" type="tns:ProductLabelLine"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ShipmentReceiptByScanRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="sReceiptLine" type="tns:sReceiptLine"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="sReceiptLine">
+		<xsd:sequence>
+			<xsd:element name="productLabelUUId" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="GetLabelDataRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="isPutAway" type="xsd:boolean" />
+			<xsd:element name="receiving" type="xsd:boolean" />
+			<xsd:element name="internalMove" type="xsd:boolean" />
+			<xsd:element name="pickList" type="xsd:boolean" />
+			<xsd:element name="finalDispatch" type="xsd:boolean" />
+			<xsd:element name="isFgReceiving" type="xsd:boolean" />
+			<xsd:element name="isLinkedToParent" type="xsd:boolean" />
+			<xsd:element name="labelType" type="xsd:string" />
+			<xsd:element name="labelUUID" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="GetLabelDataResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="labelType" type="xsd:string" />
+			<xsd:element name="labelUUID" type="xsd:string" />
+			<xsd:element name="productCount" type="xsd:int" />
+			<xsd:element name="quantity" type="xsd:int" />
+			<xsd:element name="labelLine" type="tns:ProductLabelLine"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="GetQRDataRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="qrType" type="xsd:string" />
+			<xsd:element name="qrId" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="GetQRDataResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="qrType" type="xsd:string" />
+			<xsd:element name="qrId" type="xsd:string" />
+			<xsd:element name="PalletCount" type="xsd:int" />
+			<xsd:element name="productCount" type="xsd:int" />
+			<xsd:element name="PalletQr" type="tns:PalletQr"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="PalletQr">
+		<xsd:sequence>
+			<xsd:element name="palletUUId" type="xsd:string" />
+			<xsd:element name="locatorId" type="xsd:int" />
+			<xsd:element name="locatorName" type="xsd:string" />
+			<xsd:element name="Aisle" type="xsd:string" />
+			<xsd:element name="Bin" type="xsd:string" />
+			<xsd:element name="Level" type="xsd:string" />
+			<xsd:element name="palletLines" type="tns:PalletLines"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="LinkOrUnlinkPalletRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="palletUUID" type="xsd:string" />
+			<xsd:element name="oldLocatorID" type="xsd:int" />
+			<xsd:element name="newLocatorID" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="LocatorSuggestionRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="warehouseID" type="xsd:int" />
+			<xsd:element name="LocatorSLine" type="tns:LocatorSLine"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="LocatorSuggestionResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="locatorSLine" type="tns:LocatorSLine"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="LocatorSLine">
+		<xsd:sequence>
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="cOrderlineId" type="xsd:int" />
+			<xsd:element name="locatorSuggested" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="LocatorDeatilResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="locatorId" type="xsd:int" />
+			<xsd:element name="locatorName" type="xsd:string" />
+			<xsd:element name="Aisle" type="xsd:string" />
+			<xsd:element name="Bin" type="xsd:string" />
+			<xsd:element name="Level" type="xsd:string" />
+			<xsd:element name="locatorType" type="xsd:string" />
+			<xsd:element name="locatorTypeId" type="xsd:int" />
+			<xsd:element name="warehouseId" type="xsd:int" />
+			<xsd:element name="warehouseName" type="xsd:string" />
+			<xsd:element name="deptartmentId" type="xsd:int" />
+			<xsd:element name="deptartmentName" type="xsd:string" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="LocatorDeatilRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="locatorId" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="QcCOListResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="count" type="xsd:int" minOccurs="0" />
+			<xsd:element name="QcCOLine" type="tns:QcCOLine"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="QcCOLine">
+		<xsd:sequence>
+			<xsd:element name="documentNo" type="xsd:string" />
+			<xsd:element name="mInoutID" type="xsd:string" />
+			<xsd:element name="orderDate" type="xsd:string" />
+			<xsd:element name="orderDocumentno" type="xsd:string" />
+			<xsd:element name="supplier" type="xsd:string" />
+			<xsd:element name="warehouseName" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="QcDataResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="mInoutID" type="xsd:int" />
+			<xsd:element name="cOrderId" type="xsd:int" />
+			<xsd:element name="documentNo" type="xsd:string" />
+			<xsd:element name="docStatus" type="xsd:string" />
+			<xsd:element name="orderDate" type="xsd:string" />
+			<xsd:element name="supplier" type="xsd:string" />
+			<xsd:element name="warehouseName" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="overallQnty" type="xsd:int" />
+			<xsd:element name="orderDocumentno" type="xsd:string" />
+			<xsd:element name="QcLine" type="tns:QcLine"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="QcLine">
+		<xsd:sequence>
+			<xsd:element name="mRLineId" type="xsd:int" />
+			<xsd:element name="recievedQnty" type="xsd:int" />
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="palletUUID" type="xsd:string" />
+			<xsd:element name="qcFailedQnty" type="xsd:int" />
+			<xsd:element name="suggestedLocator" type="xsd:int" />
+			<xsd:element name="locatorName" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="MarkMRQcCheckedRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="qchChecked" type="xsd:boolean" />
+			<xsd:element name="mInoutId" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="MarkSOPickedequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="soPicked" type="xsd:boolean" />
+			<xsd:element name="cOrderId" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="UpdateMrRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="mInoutId" type="xsd:int" />
+			<xsd:element name="QcLine" type="tns:QcLine"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="putAwayRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="mouldingAssemblyReceving" type="xsd:boolean" />
+			<xsd:element name="isFgReceiving" type="xsd:boolean" />
+			<xsd:element name="finalDispatch" type="xsd:boolean" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="putAwayLine" type="tns:putAwayLine"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="putAwayLine">
+		<xsd:sequence>
+			<xsd:element name="ProductLabelUUId" type="xsd:string" />
+			<xsd:element name="locatorId" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="putAwayListRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="searchKey" type="xsd:string" />
+			<xsd:element name="pageSize" type="xsd:int" />
+     		<xsd:element name="pageNumber" type="xsd:int" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="putAwayListResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" />
+			<xsd:element name="count" type="xsd:int" />
+			<xsd:element name="putAwayList" type="tns:putAwayList"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="putAwayDetailRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="documentNo" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="putAwayDetailResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" />
+			<xsd:element name="documentNo" type="xsd:string" />
+			<xsd:element name="mInoutID" type="xsd:int" />
+			<xsd:element name="orderDate" type="xsd:string" />
+			<xsd:element name="orderDocumentno" type="xsd:string" />
+			<xsd:element name="supplier" type="xsd:string" />
+			<xsd:element name="warehouseId" type="xsd:int" />
+			<xsd:element name="warehouseName" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="putAwayDetail"
+				type="tns:putAwayDetail" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="putAwayDetail">
+		<xsd:sequence>
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="cOrderlineId" type="xsd:int" />
+			<xsd:element name="quantityInRecevingLocator"
+				type="xsd:int" />
+			<xsd:element name="totalQuantity" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="putAwayLabourRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="isManufacturing" type="xsd:boolean" />
+			<xsd:element name="searchKey" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="putAwayLabourResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" />
+			<xsd:element name="count" type="xsd:int" />
+			<xsd:element name="putAwayLabour"
+				type="tns:putAwayLabour" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="putAwayLabour">
+		<xsd:sequence>
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="quantity" type="xsd:int" />
+			<xsd:element name="locatorId" type="xsd:int" />
+			<xsd:element name="locatorName" type="xsd:string" />
+			<xsd:element name="warehouseId" type="xsd:int" />
+			<xsd:element name="warehouseName" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="putAwayList">
+		<xsd:sequence>
+			<xsd:element name="documentNo" type="xsd:string" />
+			<xsd:element name="mInoutID" type="xsd:int" />
+			<xsd:element name="orderDate" type="xsd:string" />
+			<xsd:element name="orderDocumentno" type="xsd:string" />
+			<xsd:element name="supplier" type="xsd:string" />
+			<xsd:element name="warehouseId" type="xsd:int" />
+			<xsd:element name="warehouseName" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="toMarkForPutAway" type="xsd:boolean" />
+			<xsd:element name="quantityToPick" type="xsd:int" />
+			<xsd:element name="totalQuantity" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="DToCRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="BPartnerNameN" type="xsd:string" />
+			<xsd:element name="BPartnerAddress" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Products" type="tns:ProductLines"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ProductLines">
+		<xsd:sequence>
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="productQTY" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="DToCResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="salesOrderDocumentNumber"
+				type="xsd:string" />
+			<xsd:element name="salesOrderId" type="xsd:int" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="WarehouseLocatorListRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="WarehouseLocatorListResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="count" type="xsd:int" minOccurs="0" />
+			<xsd:element name="WarehouseListAccess"
+				type="tns:WarehouseListAccess" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="WarehouseListAccess">
+		<xsd:sequence>
+			<xsd:element name="warehouseId" type="xsd:int" />
+			<xsd:element name="warehouseName" type="xsd:string" />
+			<xsd:element name="occupancyPercentage" type="xsd:int" />
+			<xsd:element name="locations" type="tns:LocationType"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="LocationType">
+		<xsd:sequence>
+			<xsd:element name="locatorTypeName" type="xsd:string" />
+			<xsd:element name="locators" type="tns:Locators"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="Locators">
+		<xsd:sequence>
+			<xsd:element name="locatorName" type="xsd:string" />
+			<xsd:element name="isOccupied" type="xsd:boolean" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="PickListDetailResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="documentNo" type="xsd:string" />
+			<xsd:element name="cOrderId" type="xsd:int" />
+			<xsd:element name="orderDate" type="xsd:string" />
+			<xsd:element name="customer" type="xsd:string" />
+			<xsd:element name="warehouseName" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="orderStatus" type="xsd:boolean" />
+			<xsd:element name="locationName" type="xsd:string" />
+			<xsd:element name="overallQnty" type="xsd:int" />
+			<xsd:element name="defaultLocatorId" type="xsd:int" />
+			<xsd:element name="PickListLine" type="tns:PickListLine"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="PickListLine">
+		<xsd:sequence>
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="cOrderlineId" type="xsd:int" />
+			<xsd:element name="uomId" type="xsd:int" />
+			<xsd:element name="OutstandingQnty" type="xsd:int" />
+			<xsd:element name="locatorId" type="xsd:int" />
+			<xsd:element name="locatorName" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="SOOrderStatusRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="cOrderID" type="xsd:int" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="SOOrderStatusResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="Received" type="xsd:string" />
+			<xsd:element name="Packed" type="xsd:string" />
+			<xsd:element name="Shipped" type="xsd:string" />
+			<xsd:element name="Delivered" type="xsd:string" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="PickListLabourRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="searchKey" type="xsd:string" />
+			<xsd:element name="pageSize" type="xsd:int" />
+     		<xsd:element name="pageNumber" type="xsd:int" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="PickListLabourResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="lineCount" type="xsd:int" />
+			<xsd:element name="warehouseId" type="xsd:int" />
+			<xsd:element name="warehouseName" type="xsd:string" />
+			<xsd:element name="PickLabourLines"
+				type="tns:PickLabourLines" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="PickLabourLines">
+		<xsd:sequence>
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="ProductName" type="xsd:string" />
+			<xsd:element name="quantity" type="xsd:int" />
+			<xsd:element name="locatorId" type="xsd:int" />
+			<xsd:element name="locatorName" type="xsd:string" />
+			<xsd:element name="warehouseId" type="xsd:int" />
+			<xsd:element name="warehouseName" type="xsd:string" />
+			<xsd:element name="PickLabourLines"
+				type="tns:PickLabourLines" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="PickDetailLabourRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="quantity" type="xsd:int" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="PickDetailLabourResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="PickLabourLines"
+				type="tns:PickLabourLines" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="MarkSOToPickRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="cOrderId" type="xsd:int" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ShipperListRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="ShipperListResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="deliveryTypes"
+				type="tns:deliveryTypes" minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="shipperList" type="tns:ShipperList"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="deliveryTypes">
+		<xsd:sequence>
+			<xsd:element name="deliveryType" type="xsd:string" />
+			<xsd:element name="showDetails" type="xsd:boolean" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ShipperList">
+		<xsd:sequence>
+			<xsd:element name="shipperName" type="xsd:string" />
+			<xsd:element name="shipperId" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="UpdateShipmentRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="mInoutId" type="xsd:int" />
+			<xsd:element name="deliveryType" type="xsd:string" minOccurs="0" />
+			<xsd:element name="shipperId" type="xsd:int" minOccurs="0" />
+			<xsd:element name="status" type="xsd:string" minOccurs="0" />
+			<xsd:element name="marking" type="xsd:string" minOccurs="0" />
+			<xsd:element name="DispatcedLines"
+				type="tns:DispatcedLines" minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="DispatcedLines">
+		<xsd:sequence>
+			<xsd:element name="mRLineId" type="xsd:int" />
+			<xsd:element name="dispatchedQty" type="xsd:int" />
+		</xsd:sequence>
+		
+	</xsd:complexType>
+
+	<xsd:complexType name="GetIsUserActiveRequest">
+		<xsd:sequence>
+			<xsd:element name="userName" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="CreateNoticeRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="message" type="xsd:string" />
+			<xsd:element name="userId" type="xsd:int" />
+			<xsd:element name="tableId" type="xsd:int" />
+			<xsd:element name="recordId" type="xsd:int" />
+			<xsd:element name="reference" type="xsd:string" />
+			<xsd:element name="textMessage" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="fileName" type="xsd:string" />
+			<xsd:element name="fileData" type="xsd:base64Binary" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="LookupValues">
+		<xsd:sequence>
+			<xsd:element name="lv" type="tns:LookupValue"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="LookupValue">
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="val" type="xsd:string" />
+		<xsd:attribute name="key" type="xsd:string" />
+	</xsd:complexType>
+	
+	<xsd:element name="PickListLabourCustomRequest"
+		type="tns:PickListLabourCustomRequest"></xsd:element>
+	<xsd:element name="PickListLabourCustomResponse"
+		type="tns:PickListLabourCustomResponse"></xsd:element>
+		
+		<xsd:complexType name="PickListLabourCustomRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="searchKey" type="xsd:string" />
+			<xsd:element name="pageSize" type="xsd:int" />
+     		<xsd:element name="pageNumber" type="xsd:int" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="PickListLabourCustomResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="lineCount" type="xsd:int" />
+			<xsd:element name="warehouseId" type="xsd:int" />
+			<xsd:element name="warehouseName" type="xsd:string" />
+			<xsd:element name="PickLabourLines"
+				type="tns:PickLabourLinesCustom" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+	
+	<xsd:complexType name="PickLabourLinesCustom">
+		<xsd:sequence>
+			<xsd:element name="orderId" type="xsd:int" />
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="ProductName" type="xsd:string" />
+			<xsd:element name="quantity" type="xsd:int" />
+			<xsd:element name="locatorId" type="xsd:int" />
+			<xsd:element name="locatorName" type="xsd:string" />
+			<xsd:element name="warehouseId" type="xsd:int" />
+			<xsd:element name="warehouseName" type="xsd:string" />
+			<xsd:element name="PickLabourLines"
+				type="tns:PickLabourLines" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:element name="UpdateProductLabelRequest"
+		type="tns:UpdateProductLabelRequest"></xsd:element>
+	<xsd:element name="UpdateProductLabelResponse"
+		type="tns:UpdateProductLabelResponse"></xsd:element>
+		
+		<xsd:complexType name="UpdateProductLabelRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="labelUUID" type="xsd:string" />
+			<xsd:element name="quantity" type="xsd:int" />
+			<xsd:element name="generateNewLabel" type="xsd:boolean" />
+			<xsd:element name="reason" type="xsd:string" />
+			<xsd:element name="status" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="UpdateProductLabelResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="quantity" type="xsd:int" />
+			<xsd:element name="ProductLabelList"
+				type="tns:ProductLabelList" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+	
+	<xsd:complexType name="ProductLabelList">
+		<xsd:sequence>
+			<xsd:element name="productLabelId" type="xsd:int" />
+			<xsd:element name="productLabelUUId" type="xsd:string" />
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="quantity" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:element name="GetProductListRequest"
+		type="tns:GetProductListRequest"></xsd:element>
+	<xsd:element name="GetProductListResponse"
+		type="tns:GetProductListResponse"></xsd:element>
+		
+		<xsd:complexType name="GetProductListRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="GetProductListResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="ProductList"
+				type="tns:ProductList" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+	
+	<xsd:complexType name="ProductList">
+		<xsd:sequence>
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="locatorId" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:element name="ReturnOrderRequest"
+		type="tns:ReturnOrderRequest"></xsd:element>
+	<xsd:complexType name="ReturnOrderRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="returnOrderId" type="xsd:int" />
+			<xsd:element name="operation" type="xsd:string" />
+			<xsd:element name="status" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="BPartnerId" type="xsd:int" />
+			<xsd:element name="ReturnList"
+				type="tns:ReturnList" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ReturnList">
+		<xsd:sequence>
+			<xsd:element name="returnLineId" type="xsd:int" />
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="productName" type="xsd:string" />
+			<xsd:element name="quantity" type="xsd:int" />
+			<xsd:element name="quantityIssue" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:element name="ReturnOrderListRequest"
+		type="tns:ReturnOrderListRequest"></xsd:element>
+	<xsd:complexType name="ReturnOrderListRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="searchKey" type="xsd:string" />
+			<xsd:element name="pageSize" type="xsd:int" />
+			<xsd:element name="pageNumber" type="xsd:int" />
+			<xsd:element name="status" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="ReturnOrderListResponse"
+		type="tns:ReturnOrderListResponse"></xsd:element>
+	<xsd:complexType name="ReturnOrderListResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="ReturnOrderList" type="tns:ReturnOrderList"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="ReturnOrderList">
+		<xsd:sequence>
+			<xsd:element name="returnOrderId" type="xsd:int" />
+			<xsd:element name="status" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="bpartnerId" type="xsd:int" />
+			<xsd:element name="bpartnerName" type="xsd:string" />
+			<xsd:element name="dateOrdered" type="xsd:dateTime" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:element name="ReturnOrderDetailsRequest"
+		type="tns:ReturnOrderDetailsRequest"></xsd:element>
+	<xsd:complexType name="ReturnOrderDetailsRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="returnOrderId" type="xsd:int" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="ReturnOrderDetailsResponse"
+		type="tns:ReturnOrderDetailsResponse"></xsd:element>
+	<xsd:complexType name="ReturnOrderDetailsResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="returnOrderId" type="xsd:int" />
+			<xsd:element name="status" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="bpartnerId" type="xsd:int" />
+			<xsd:element name="bpartnerName" type="xsd:string" />
+			<xsd:element name="locatorId" type="xsd:int" />
+			<xsd:element name="dateOrdered" type="xsd:dateTime" />
+			<xsd:element name="ReturnList" type="tns:ReturnList"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>	
+	
+	<xsd:element name="GetReturnComponentsRequest"
+		type="tns:GetReturnComponentsRequest"></xsd:element>
+	<xsd:complexType name="GetReturnComponentsRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="GetReturnComponentsResponse"
+		type="tns:GetReturnComponentsResponse"></xsd:element>
+	<xsd:complexType name="GetReturnComponentsResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="locatorId" type="xsd:int" />
+			<xsd:element name="Product" type="tns:Product"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="BusinessPartner" type="tns:BusinessPartner"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="Product">
+		<xsd:sequence>
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="productName" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="BusinessPartner">
+		<xsd:sequence>
+			<xsd:element name="bPartnerId" type="xsd:int" />
+			<xsd:element name="bPartnerName" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+		<xsd:element name="CreateSCByLabelRequest" type="tns:CreateSCByLabelRequest"></xsd:element>
+	
+  <xsd:complexType name="CreateSCByLabelRequest">
+    <xsd:sequence>
+      <xsd:element name="serviceType" type="xsd:string" />
+  	  <xsd:element name="mInoutID" type="xsd:int" />
+  	  <xsd:element name="status" type="xsd:string" />
+    	<xsd:element name="ADLoginRequest" type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name="line" type="tns:SCLabelLine" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+      </xsd:sequence>
+  </xsd:complexType>
+  
+   <xsd:complexType name="SCLabelLine">
+    <xsd:sequence>
+      <xsd:element name="labelUUID" type="xsd:string" />
+      <xsd:element name="productId" type="xsd:int" />
+      </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="CleanUpDataRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="CleanUpDataResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="BPartnerListRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="searchKey" type="xsd:string" />
+			<xsd:element name="pageNo" type="xsd:int" />
+			<xsd:element name="pageSize" type="xsd:int" />
+			<xsd:element name="isVendor" type="xsd:boolean" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="BPartnerListResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="BusinessPartners" type="tns:BusinessPartners"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="BusinessPartners">
+		<xsd:sequence>
+			<xsd:element name="bPartnerId" type="xsd:int" />
+			<xsd:element name="businessPartnerName" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="CreateSalesOrderRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="customerId" type="xsd:int" />
+			<xsd:element name="warehouseId" type="xsd:int" />
+			<xsd:element name="description" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="CreateSalesOrderResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="orderId" type="xsd:int" />
+			<xsd:element name="documentNo" type="xsd:string" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="UpdateSalesOrderRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="orderId" type="xsd:int" />
+			<xsd:element name="putAwayLine" type="tns:putAwayLine"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="UpdateSalesOrderResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="orderId" type="xsd:int" />
+			<xsd:element name="documentNo" type="xsd:string" />
+			<xsd:element name="shipmentId" type="xsd:int" />
+			<xsd:element name="shipmentDocumentNo" type="xsd:string" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:complexType name="DiscardProductLabelRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="labelUUID" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="CreatePurchaseOrderRequest">
+		<xsd:sequence>
+			<xsd:element name="serviceType" type="xsd:string" />
+			<xsd:element name="ADLoginRequest"
+				type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="vendorId" type="xsd:int" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="dateOrdered" type="xsd:string" />
+			<xsd:element name="POLines" type="tns:POLines"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="POLines">
+		<xsd:sequence>
+			<xsd:element name="productId" type="xsd:int" />
+			<xsd:element name="quantity" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="CreatePurchaseOrderResponse">
+		<xsd:sequence>
+			<xsd:element name="Error" type="xsd:string" minOccurs="0" />
+			<xsd:element name="orderId" type="xsd:int" />
+			<xsd:element name="documentNo" type="xsd:string" />
+		</xsd:sequence>
+		<xsd:attribute name="IsError" type="xsd:boolean" />
+	</xsd:complexType>
+
+</xsd:schema>
+
+

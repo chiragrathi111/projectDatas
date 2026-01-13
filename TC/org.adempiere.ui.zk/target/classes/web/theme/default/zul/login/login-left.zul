@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright (C) 2009 Low Heng Sin
+	Copyright (C) 2009 Idalica Corporation
+-->
+<?component name="vendorLogo" inline="true" macroURI="~./theme/default/zul/login/vendor-logo.zul"?>
+<?component name="loginInfo" macroURI="~./theme/default/zul/login/login-info.zul"?>
+<?component name="versionInfo" inline="true" macroURI="~./theme/default/zul/login/version-info.zul"?>
+<?component name="loginLinks" inline="true" macroURI="~./theme/default/zul/login/login-links.zul"?>
+
+<div>
+	<vendorLogo />
+	<!-- <image sclass="login-image"
+		src="~./theme/default/images/logoLeft1.png" /> -->
+		
+		<image sclass="kerala-logo"
+		src="~./theme/default/images/keralagovernmentlogo22248.svg" />
+		
+		  <div sclass="label-container">
+        <label sclass="styled-label">Biotechnology &amp; Model Floriculture Center</label>
+         <label sclass="space"> </label>
+    </div>
+    
+    
+    <div sclass="kdsc-logo-container">
+        <image sclass="kerala-logo"
+            src="~./theme/default/images/LOGO_K-DISC.png" />
+    </div>
+		  
+	<loginInfo
+		if="${desktop.execution.serverName.equals(&quot;127.0.0.1&quot;) or desktop.execution.serverName.startsWith(&quot;demo&quot;) or desktop.execution.serverName.startsWith(&quot;test.&quot;) or desktop.execution.serverName.startsWith(&quot;test-&quot;) or desktop.execution.serverName.startsWith(&quot;triage&quot;)}" />
+	<versionInfo />
+	<loginLinks />
+
+</div>

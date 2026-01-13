@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+<zscript>
+  import org.compiere.model.MSysConfig;
+  var logoPath = MSysConfig.getValue("ZK_LOGIN_ICON");
+  var fullLogoPath = "~./theme/default" + logoPath;
+</zscript>
+<borderlayout id="layout" sclass="login-window">
+
+	<center border="none" autoscroll="true">
+		<!-- <vbox pack="center" align="center" hflex="1" vflex="1"> -->
+		<div>
+		<vbox pack="center" align="center" hflex="1" vflex="1" sclass="login-right-cont">
+		<image src="${fullLogoPath}"/>	
+		</vbox>
+		<vbox pack="center" align="center" hflex="1" vflex="1" sclass="login-right-cont">
+		<window use="org.adempiere.webui.window.LoginWindow" id="loginWindow"/>
+		</vbox>
+		<!-- -->	
+		</div>
+	
+		
+	</center>
+	<east sclass="login-east-panel">
+		<include src="~./theme/default/zul/login/login-right.zul"/>
+	</east>
+	<west sclass="login-west-panel">
+		<include src="~./theme/default/zul/login/login-left.zul"/>
+	</west>
+	<north sclass="login-north-panel">
+		<include src="~./theme/default/zul/login/login-top.zul"/>
+	</north>
+	<south sclass="login-south-panel">
+		<include src="~./theme/default/zul/login/login-bottom.zul"/>
+	</south>
+</borderlayout>
+</zk>

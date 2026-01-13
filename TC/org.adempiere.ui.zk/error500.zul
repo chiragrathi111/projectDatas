@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="Internal Server Error" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window border="normal" width="600px" style="margin: 100px auto;">
+		<caption label="500 - Internal Server Error" />
+		<vbox align="center" spacing="20px" style="padding: 20px;">
+			<label value="An internal server error occurred." style="font-size: 16px;" />
+			<label value="Please try again later or contact support if the problem persists." />
+			<button label="Go to Home" onClick='execution.sendRedirect("/");' />
+		</vbox>
+	</window>
+</zk>

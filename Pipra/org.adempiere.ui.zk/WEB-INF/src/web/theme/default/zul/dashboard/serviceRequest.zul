@@ -1,0 +1,8 @@
+<?page title="ChartJS for ZK 8.x" ?>
+<zk>
+	<div hflex="1" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('org.adempiere.webui.dashboard.DPReturnsChart')">
+		<chartjs type="line" data="@load(vm.serviceLineModel)"
+			width="90%" />
+	</div>
+</zk>

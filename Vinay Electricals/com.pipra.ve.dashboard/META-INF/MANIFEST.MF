@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: VEDashboard
+Bundle-SymbolicName: com.pipra.ve.dashboard
+Bundle-Version: 10.0.0.qualifier
+Bundle-Vendor: PIPRA
+Fragment-Host: org.adempiere.ui.zk;bundle-version="10.0.0"
+Automatic-Module-Name: com.pipra.ve.dashboard
+Bundle-RequiredExecutionEnvironment: JavaSE-11

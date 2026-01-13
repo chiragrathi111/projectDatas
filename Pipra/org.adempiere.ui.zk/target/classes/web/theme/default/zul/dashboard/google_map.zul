@@ -1,0 +1,73 @@
+<zk>
+    <?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+    <div apply="org.adempiere.webui.dashboard.GoogleMapsController">
+        <script type="text/javascript" content="zk.googleAPIkey='AIzaSyBepCe3YGOmV-Cx_jm5PM7cjEpbCmSj4K0'" />
+        
+       <script type="text/javascript">
+    var currentLat = 17.5301578; // Default latitude
+    var currentLng = 78.4880387; // Default longitude
+
+    function getCurrentLocation() {
+        return new Promise((resolve, reject) => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const updatedLat = position.coords.latitude;
+                        const updatedLng = position.coords.longitude;
+                        resolve({ updatedLng, updatedLat }); // Resolve with an object
+                    },
+                    function() {
+                        alert("Geolocation service failed.");
+                        reject("Geolocation service failed."); // Reject on error
+                    }
+                );
+            } else {
+                alert("Your browser doesn't support geolocation.");
+                reject("Geolocation not supported."); // Reject if not supported
+            }
+        });
+    }
+
+     getCurrentLocation().then(({ updatedLng, updatedLat }) => {
+        currentLng = updatedLng;
+        currentLat = updatedLat;
+                var latitude = zk.Widget.$('$latitude'); 
+                var longitude = zk.Widget.$('$longitude'); 
+                
+          //      latitude.setValue(currentLat);
+		//longitude.setValue(longitude);
+		
+    }).catch(error => {
+        console.error(error); // Handle any errors
+    });
+</script>
+
+        
+        <gmaps id="gmaps" width="520px" height="400px" showSmallCtrl="true">
+            <ginfo id="info" open="true" content="Hello Mahe, &lt;a href=&quot;https://www.pipra.solutions&quot;&gt;Pipra&lt;/a&gt;."/> 
+            <gmarker id="marker" lat="${currentLat}" lng="${currentLng}" 
+                content="Hello, &lt;a href=&quot;http://www.zkoss.org&quot;&gt;Pipra&lt;/a&gt; on top of Gmarker."/>
+        </gmaps>
+    </div>
+    
+    <grid apply="org.adempiere.webui.dashboard.GoogleMapsConfigController" hflex="min">
+        <rows>
+            <row>
+                <label value="Latitude:" />
+                <doublebox id="latitude" hflex="1" />
+            </row>
+            <row>
+                <label value="Longitude:" /> 
+                <doublebox id="longitude" hflex="1" />
+            </row>
+            <row>
+                <label value="Zoom Level:" /> 
+                <intbox id="zoom" hflex="1" />
+            </row>
+            <row>
+                <label value="Open Info:" />
+                <button id="toggleInfo" label="Toggle Info" hflex="1" />
+            </row>
+        </rows>
+    </grid>
+</zk>

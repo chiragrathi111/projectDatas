@@ -1,0 +1,429 @@
+/******************************************************************************
+ * Copyright (C) 2012 Carlos Ruiz                                             *
+ * Copyright (C) 2012 GlobalQSS - Quality Systems & Solutions                 *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *****************************************************************************/
+package org.adempiere.webui.dashboard;
+
+import java.lang.ref.WeakReference;
+import java.util.List;
+
+import org.adempiere.base.Core;
+import org.adempiere.base.event.EventManager;
+import org.adempiere.webui.component.ToolBarButton;
+import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeManager;
+import org.adempiere.webui.util.ServerPushTemplate;
+import org.adempiere.webui.util.ZKUpdateUtil;
+import org.compiere.model.MQuery;
+import org.compiere.model.MRecentItem;
+import org.compiere.model.MRole;
+import org.compiere.model.MSysConfig;
+import org.compiere.model.MTable;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Util;
+import org.idempiere.distributed.IMessageService;
+import org.idempiere.distributed.ITopic;
+import org.idempiere.distributed.ITopicSubscriber;
+import org.osgi.service.event.EventHandler;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Desktop;
+import org.zkoss.zk.ui.Page;
+import org.zkoss.zk.ui.event.DropEvent;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.util.DesktopCleanup;
+import org.zkoss.zul.A;
+import org.zkoss.zul.Box;
+import org.zkoss.zul.Image;
+import org.zkoss.zul.Label;
+import org.zkoss.zul.Panel;
+import org.zkoss.zul.Panelchildren;
+import org.zkoss.zul.Toolbar;
+import org.zkoss.zul.Vbox;
+
+/**
+ * Dashboard gadget: Recent Items
+ * @author Carlos Ruiz / GlobalQSS
+ * @date January 27, 2012
+ */
+public class DPRecentItems extends DashboardPanel implements EventListener<Event>, EventHandler {
+	/**
+	 * generated serial id 
+	 */
+	private static final long serialVersionUID = 662950038476166515L;
+
+	/** Recent item link ({@link A}) attribute to store AD_RecentItem_ID value */
+	private static final String AD_RECENT_ITEM_ID_ATTR = "AD_RecentItem_ID";
+	
+	/** Droppable identifier */
+	public static final String DELETE_RECENTITEMS_DROPPABLE = "deleteRecentItems";
+
+	private static TopicSubscriber topicSubscriber;
+
+	private Box bxRecentItems;
+	
+	/** Login user id */
+	private int AD_User_ID;
+	
+	private WeakReference<Desktop> desktop;
+	
+	/** Desktop cleanup listener to call {@link #cleanup()} */
+	private DesktopCleanup listener;
+
+	/**
+	 * Default constructor
+	 */
+	public DPRecentItems()
+	{
+		super();
+
+		AD_User_ID = Env.getAD_User_ID(Env.getCtx());
+		
+		Panel panel = new Panel();
+		this.appendChild(panel);
+
+		Panelchildren recentItemsContent = new Panelchildren();
+		panel.appendChild(recentItemsContent);
+		bxRecentItems = new Vbox();
+		ZKUpdateUtil.setHflex(bxRecentItems, "1");
+		this.setSclass("recentitems-box");
+		recentItemsContent.appendChild(bxRecentItems);
+		
+		Toolbar recentItemsToolbar = new Toolbar();
+		this.appendChild(recentItemsToolbar);
+
+		if (ThemeManager.isUseFontIconForImage())
+		{
+			ToolBarButton btn = new ToolBarButton();
+			btn.setIconSclass("z-icon-Refresh");
+			btn.setSclass("trash-toolbarbutton");
+			recentItemsToolbar.appendChild(btn);
+			btn.setTooltiptext(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Refresh")));
+			btn.addEventListener(Events.ON_CLICK, this);
+		}
+		else
+		{
+			Image imgr = new Image(ThemeManager.getThemeResource("images/Refresh24.png"));
+			recentItemsToolbar.appendChild(imgr);
+			imgr.setStyle("text-align: right; cursor: pointer; width:24px; height:24px;");
+			imgr.setTooltiptext(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Refresh")));
+			imgr.addEventListener(Events.ON_CLICK, this);
+		}
+		//
+
+		if (ThemeManager.isUseFontIconForImage())
+		{
+			Label deleteLabel = new Label();
+			recentItemsToolbar.appendChild(deleteLabel);
+			deleteLabel.setSclass("z-icon-Trash trash-font-icon");
+			deleteLabel.setTooltiptext(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Delete")));
+			deleteLabel.setDroppable(DELETE_RECENTITEMS_DROPPABLE);		
+			deleteLabel.addEventListener(Events.ON_DROP, this);
+		}
+		else
+		{
+			Image img = new Image(ThemeManager.getThemeResource("images/Delete24.png"));
+			recentItemsToolbar.appendChild(img);
+			img.setStyle("text-align: right; width:24px; height:24px;");
+			img.setDroppable(DELETE_RECENTITEMS_DROPPABLE);
+			img.setTooltiptext(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Delete")));
+			img.addEventListener(Events.ON_DROP, this);
+		}
+		//						
+		createTopicSubscriber();
+		
+		listener = new DesktopCleanup() {			
+			@Override
+			public void cleanup(Desktop desktop) throws Exception {
+				DPRecentItems.this.cleanup();
+			}
+		};
+	}
+
+	/**
+	 * Perform clean up
+	 */
+	protected void cleanup() {
+		EventManager.getInstance().unregister(this);
+		desktop = null;
+	}
+
+	/**
+	 * Setup {@link #topicSubscriber}
+	 */
+	private static synchronized void createTopicSubscriber() {
+		if (topicSubscriber == null) {
+			topicSubscriber = new TopicSubscriber();
+			IMessageService service = Core.getMessageService();
+			if (service != null) {
+				ITopic<Integer> topic = service.getTopic(MRecentItem.ON_RECENT_ITEM_CHANGED_TOPIC);
+				topic.subscribe(topicSubscriber);
+			}
+		}
+	}
+
+    /**
+	 *	Remove recent item record from DB
+	 *  @param AD_RecentItem_ID Recent Item ID
+	 *  @return true if updated
+	 */
+    private void riDBremove(int AD_RecentItem_ID)
+	{
+    	MRecentItem ri = MRecentItem.getCopy(Env.getCtx(), AD_RecentItem_ID, (String)null);
+    	if (ri.get_ID() == AD_RecentItem_ID) 
+    	{
+    		ri.deleteEx(true);
+    	}
+	}
+
+    @Override
+    public void onEvent(Event event)
+    {
+        Component comp = event.getTarget();
+        String eventName = event.getName();
+
+        if (eventName.equals(Events.ON_CLICK))
+        {
+            doOnClick(comp);
+        }
+        else if(eventName.equals(Events.ON_DROP))
+        {
+        	DropEvent de = (DropEvent) event;
+        	Component dragged = de.getDragged();
+
+        	if(comp instanceof Image || comp instanceof Label)
+        	{
+        		if(dragged instanceof A)
+        		{
+        			A btn = (A) dragged;
+        			removeLink(btn);
+        		}
+        	}
+        }
+	}
+
+    /**
+     * Handle onClick event from recent item link/button
+     * @param comp Component
+     */
+	private void doOnClick(Component comp) {
+		if (comp instanceof A)
+		{
+			A btn = (A) comp;
+            removeHighlighting();
+            highlightRecentItem(btn);
+
+			int AD_RecentItem_ID = 0;
+			try
+			{
+				AD_RecentItem_ID = Integer.valueOf((String)btn.getAttribute(AD_RECENT_ITEM_ID_ATTR));            		
+			}
+			catch (Exception e) {
+			}
+
+			if (AD_RecentItem_ID > 0) {
+				MRecentItem ri = MRecentItem.get(Env.getCtx(), AD_RecentItem_ID);
+				String TableName = MTable.getTableName(Env.getCtx(), ri.getAD_Table_ID());
+				MQuery query = MQuery.getEqualQuery(TableName + "_ID", ri.getRecord_ID());
+
+				SessionManager.getAppDesktop().openWindow(ri.getAD_Window_ID(), query, null);
+				
+			}
+		}
+		if (comp instanceof Image || comp instanceof ToolBarButton) // Refresh button
+		{
+			refresh();
+		}
+	}
+	
+	private void highlightRecentItem(A item) {
+		item.addSclass("highlighted-node");
+	}
+
+	private void removeHighlighting() {
+		List<?> recentItems = bxRecentItems.getChildren();
+		for (Object item : recentItems) {
+			if (item instanceof A) {
+				((A) item).removeSclass("highlighted-node");
+			}
+		}
+	}
+
+	/**
+	 * Reload from DB
+	 */
+	private synchronized void refresh() {
+		removeHighlighting();
+		// Please review here - is throwing NPE in some cases when user push repeatedly the refresh button
+		List<?> childs = bxRecentItems.getChildren();
+		int childCount = childs.size();
+		for (int c = childCount - 1; c >=0; c--) {
+			Component comp = (Component) childs.get(c);
+			if (comp instanceof A) {
+				comp.removeEventListener(Events.ON_CLICK, this);
+				comp.removeEventListener(Events.ON_DROP, this);
+			}
+			bxRecentItems.removeChild(comp);
+		}
+
+		int maxri = MSysConfig.getIntValue(MSysConfig.RecentItems_MaxShown, 10, Env.getAD_Client_ID(Env.getCtx()));
+		if (maxri <= 0)
+			return;
+
+		List<MRecentItem> ris = MRecentItem.getFromUser(Env.getCtx(), AD_User_ID);
+		int riShown = 0;
+		for (MRecentItem ri : ris) {
+			if (ri.getAD_Window_ID() > 0 && MRole.getDefault().getWindowAccess(ri.getAD_Window_ID()) == null)
+				continue;
+			if (ri.getAD_Window_ID() > 0 && !MRole.getDefault().isRecordAccess(ri.getAD_Table_ID(), ri.getRecord_ID(), true))
+				continue;
+				
+			String label = ri.getLabel();
+			if (label == null)
+				continue;
+			A btnrecentItem = new A();
+			btnrecentItem.setAttribute(AD_RECENT_ITEM_ID_ATTR, String.valueOf(ri.getAD_RecentItem_ID()));
+			bxRecentItems.appendChild(btnrecentItem);
+			btnrecentItem.setLabel(label);
+			if (ThemeManager.isUseFontIconForImage())
+//				btnrecentItem.setImage(ThemeManager.getThemeResource(getIconFile()));	
+				btnrecentItem.setImage(getIconFile());
+//				btnrecentItem.setIconSclass(getIconFile());
+			else
+				btnrecentItem.setImage(ThemeManager.getThemeResource(getIconFile()));
+			btnrecentItem.setDraggable(DELETE_RECENTITEMS_DROPPABLE);
+			btnrecentItem.addEventListener(Events.ON_CLICK, this);
+			btnrecentItem.addEventListener(Events.ON_DROP, this);
+			btnrecentItem.setSclass("menu-href");
+			ZKUpdateUtil.setHflex(btnrecentItem, "1");
+			
+			riShown++;
+			if (riShown >= maxri)
+				break;
+		}
+
+	}
+
+	/**
+	 * Remove recent item link from {@link #bxRecentItems} and DB
+	 * @param btn {@link A}
+	 */
+	private void removeLink(A btn) {
+		String value = (String) btn.getAttribute(AD_RECENT_ITEM_ID_ATTR);
+
+		if (value != null)
+		{
+			int AD_RecentItem_ID = Integer.valueOf(value.toString());
+			riDBremove(AD_RecentItem_ID);
+			bxRecentItems.removeChild(btn);
+			bxRecentItems.invalidate();
+		}
+	}
+
+	/**
+	 * @return icon font class or icon image url
+	 */
+	private String getIconFile() {
+		if (ThemeManager.isUseFontIconForImage())
+//			return "z-icon-Window";
+//			return "wms-window-icon";
+			return "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggb3BhY2l0eT0iMC45NzIiIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMS45OTIxOSAzLjQ5MjE5QzguNjQ4NDQgMy40ODQzNyAxNS4zMDQ3IDMuNDkyMTkgMjEuOTYwOSAzLjUxNTYzQzIyLjc4MDMgMy43MjU2MyAyMy4yNTY4IDQuMjQ5MDcgMjMuMzkwNiA1LjA4NTk0QzIzLjQyMTkgOS42Nzk2OSAyMy40MjE5IDE0LjI3MzQgMjMuMzkwNiAxOC44NjcyQzIzLjI1NjggMTkuNzA0IDIyLjc4MDMgMjAuMjI3NSAyMS45NjA5IDIwLjQzNzVDMTUuMzA0NyAyMC40Njg4IDguNjQ4NDQgMjAuNDY4OCAxLjk5MjE5IDIwLjQzNzVDMS4xNzI4NiAyMC4yMjc1IDAuNjk2MzAxIDE5LjcwNCAwLjU2MjUwMSAxOC44NjcyQzAuNTMxMjUgMTQuMjczNCAwLjUzMTI1IDkuNjc5NjkgMC41NjI1MDEgNS4wODU5NEMwLjcwNTEwNCA0LjI0ODM0IDEuMTgxNjYgMy43MTcwOSAxLjk5MjE5IDMuNDkyMTlaTTIuMjczNDQgNC43MTA5NEM4Ljc0MjE5IDQuNzAzMTEgMTUuMjEwOSA0LjcxMDk0IDIxLjY3OTcgNC43MzQzOEMyMS45MDE2IDQuNzg0NDQgMjIuMDUwMSA0LjkxNzI0IDIyLjEyNSA1LjEzMjgxQzIyLjE0ODQgNS44NTE0MSAyMi4xNTYzIDYuNTcwMTQgMjIuMTQ4NCA3LjI4OTA2QzE1LjM2NzIgNy4yODkwNiA4LjU4NTk1IDcuMjg5MDYgMS44MDQ2OSA3LjI4OTA2QzEuNzk2ODggNi41NzAxNCAxLjgwNDY5IDUuODUxNDEgMS44MjgxMyA1LjEzMjgxQzEuOTExMzMgNC45MTY2MyAyLjA1OTc3IDQuNzc2IDIuMjczNDQgNC43MTA5NFpNMS44MDQ2OSA4LjUwNzgxQzguNTg1OTUgOC41MDc4MSAxNS4zNjcyIDguNTA3ODEgMjIuMTQ4NCA4LjUwNzgxQzIyLjE1NjMgMTEuOTQ1MyAyMi4xNDg0IDE1LjM4MjggMjIuMTI1IDE4LjgyMDNDMjIuMDUwMSAxOS4wMzU5IDIxLjkwMTYgMTkuMTY4NyAyMS42Nzk3IDE5LjIxODhDMTUuMjEwOSAxOS4yNSA4Ljc0MjE5IDE5LjI1IDIuMjczNDQgMTkuMjE4OEMyLjA1MTQ3IDE5LjE2ODcgMS45MDMwNCAxOS4wMzU5IDEuODI4MTMgMTguODIwM0MxLjgwNDY5IDE1LjM4MjggMS43OTY4NyAxMS45NDUzIDEuODA0NjkgOC41MDc4MVoiIGZpbGw9IiMyODMwM0YiLz4KPHBhdGggb3BhY2l0eT0iMC45MTgiIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMTYuNTIzNCA1LjM2NzE3QzE2LjcyNzEgNS4zNTkzOSAxNi45MzAyIDUuMzY3MjEgMTcuMTMyOCA1LjM5MDYxQzE3LjUxODkgNS41Mjk3MyAxNy42Njc0IDUuODAzMiAxNy41NzgxIDYuMjEwOTJDMTcuNDk3NiA2LjQ0NzY4IDE3LjMzMzYgNi41ODA1MyAxNy4wODU5IDYuNjA5MzZDMTYuNzEzIDYuNzAwNzYgMTYuMzkyNyA2LjYxNDg0IDE2LjEyNSA2LjM1MTU0QzE1LjkyNjcgNS44NzkxNCAxNi4wNTk1IDUuNTUxMDEgMTYuNTIzNCA1LjM2NzE3WiIgZmlsbD0iIzI4MzAzRiIvPgo8cGF0aCBvcGFjaXR5PSIwLjkyMyIgZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xOS4wMDc4IDUuMzY3MTdDMTkuMjExNiA1LjM1OTM5IDE5LjQxNDcgNS4zNjcyMSAxOS42MTcyIDUuMzkwNjFDMjAuMDAzMyA1LjUyOTczIDIwLjE1MTggNS44MDMyIDIwLjA2MjUgNi4yMTA5MkMxOS45ODIgNi40NDc2OCAxOS44MTggNi41ODA1MyAxOS41NzAzIDYuNjA5MzZDMTguNzcwOCA2Ljc0NzQgMTguNDUwNSA2LjQyNzExIDE4LjYwOTQgNS42NDg0MkMxOC43MTgyIDUuNTEyNzEgMTguODUxIDUuNDE4OTYgMTkuMDA3OCA1LjM2NzE3WiIgZmlsbD0iIzI4MzAzRiIvPgo8L3N2Zz4K";
+		else
+//			return "images/mWindow.png";
+			return "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggb3BhY2l0eT0iMC45NzIiIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMS45OTIxOSAzLjQ5MjE5QzguNjQ4NDQgMy40ODQzNyAxNS4zMDQ3IDMuNDkyMTkgMjEuOTYwOSAzLjUxNTYzQzIyLjc4MDMgMy43MjU2MyAyMy4yNTY4IDQuMjQ5MDcgMjMuMzkwNiA1LjA4NTk0QzIzLjQyMTkgOS42Nzk2OSAyMy40MjE5IDE0LjI3MzQgMjMuMzkwNiAxOC44NjcyQzIzLjI1NjggMTkuNzA0IDIyLjc4MDMgMjAuMjI3NSAyMS45NjA5IDIwLjQzNzVDMTUuMzA0NyAyMC40Njg4IDguNjQ4NDQgMjAuNDY4OCAxLjk5MjE5IDIwLjQzNzVDMS4xNzI4NiAyMC4yMjc1IDAuNjk2MzAxIDE5LjcwNCAwLjU2MjUwMSAxOC44NjcyQzAuNTMxMjUgMTQuMjczNCAwLjUzMTI1IDkuNjc5NjkgMC41NjI1MDEgNS4wODU5NEMwLjcwNTEwNCA0LjI0ODM0IDEuMTgxNjYgMy43MTcwOSAxLjk5MjE5IDMuNDkyMTlaTTIuMjczNDQgNC43MTA5NEM4Ljc0MjE5IDQuNzAzMTEgMTUuMjEwOSA0LjcxMDk0IDIxLjY3OTcgNC43MzQzOEMyMS45MDE2IDQuNzg0NDQgMjIuMDUwMSA0LjkxNzI0IDIyLjEyNSA1LjEzMjgxQzIyLjE0ODQgNS44NTE0MSAyMi4xNTYzIDYuNTcwMTQgMjIuMTQ4NCA3LjI4OTA2QzE1LjM2NzIgNy4yODkwNiA4LjU4NTk1IDcuMjg5MDYgMS44MDQ2OSA3LjI4OTA2QzEuNzk2ODggNi41NzAxNCAxLjgwNDY5IDUuODUxNDEgMS44MjgxMyA1LjEzMjgxQzEuOTExMzMgNC45MTY2MyAyLjA1OTc3IDQuNzc2IDIuMjczNDQgNC43MTA5NFpNMS44MDQ2OSA4LjUwNzgxQzguNTg1OTUgOC41MDc4MSAxNS4zNjcyIDguNTA3ODEgMjIuMTQ4NCA4LjUwNzgxQzIyLjE1NjMgMTEuOTQ1MyAyMi4xNDg0IDE1LjM4MjggMjIuMTI1IDE4LjgyMDNDMjIuMDUwMSAxOS4wMzU5IDIxLjkwMTYgMTkuMTY4NyAyMS42Nzk3IDE5LjIxODhDMTUuMjEwOSAxOS4yNSA4Ljc0MjE5IDE5LjI1IDIuMjczNDQgMTkuMjE4OEMyLjA1MTQ3IDE5LjE2ODcgMS45MDMwNCAxOS4wMzU5IDEuODI4MTMgMTguODIwM0MxLjgwNDY5IDE1LjM4MjggMS43OTY4NyAxMS45NDUzIDEuODA0NjkgOC41MDc4MVoiIGZpbGw9IiMyODMwM0YiLz4KPHBhdGggb3BhY2l0eT0iMC45MTgiIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMTYuNTIzNCA1LjM2NzE3QzE2LjcyNzEgNS4zNTkzOSAxNi45MzAyIDUuMzY3MjEgMTcuMTMyOCA1LjM5MDYxQzE3LjUxODkgNS41Mjk3MyAxNy42Njc0IDUuODAzMiAxNy41NzgxIDYuMjEwOTJDMTcuNDk3NiA2LjQ0NzY4IDE3LjMzMzYgNi41ODA1MyAxNy4wODU5IDYuNjA5MzZDMTYuNzEzIDYuNzAwNzYgMTYuMzkyNyA2LjYxNDg0IDE2LjEyNSA2LjM1MTU0QzE1LjkyNjcgNS44NzkxNCAxNi4wNTk1IDUuNTUxMDEgMTYuNTIzNCA1LjM2NzE3WiIgZmlsbD0iIzI4MzAzRiIvPgo8cGF0aCBvcGFjaXR5PSIwLjkyMyIgZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xOS4wMDc4IDUuMzY3MTdDMTkuMjExNiA1LjM1OTM5IDE5LjQxNDcgNS4zNjcyMSAxOS42MTcyIDUuMzkwNjFDMjAuMDAzMyA1LjUyOTczIDIwLjE1MTggNS44MDMyIDIwLjA2MjUgNi4yMTA5MkMxOS45ODIgNi40NDc2OCAxOS44MTggNi41ODA1MyAxOS41NzAzIDYuNjA5MzZDMTguNzcwOCA2Ljc0NzQgMTguNDUwNSA2LjQyNzExIDE4LjYwOTQgNS42NDg0MkMxOC43MTgyIDUuNTEyNzEgMTguODUxIDUuNDE4OTYgMTkuMDA3OCA1LjM2NzE3WiIgZmlsbD0iIzI4MzAzRiIvPgo8L3N2Zz4K";
+	}
+
+	@Override
+    public void refresh(ServerPushTemplate template)
+	{			
+    	template.executeAsync(this);
+	}
+
+	@Override
+	public void updateUI() {
+		refresh();
+		if (bxRecentItems != null)
+			bxRecentItems.invalidate();
+		updateDesktopReference();
+		
+	}
+
+	/**
+	 * Update {@link #desktop} reference and setup {@link #listener}
+	 */
+	protected void updateDesktopReference() {
+		if ((desktop == null || desktop.get() == null) || (desktop.get() != null && desktop.get() != getDesktop())) {
+			if (desktop != null && desktop.get() != null)
+				desktop.get().removeListener(listener);
+			
+			desktop = new WeakReference<Desktop>(getDesktop());
+			if (desktop != null && desktop.get() != null)
+				desktop.get().addListener(listener);
+		}
+	}
+
+	@Override
+	public void handleEvent(org.osgi.service.event.Event event) {
+		if (event.getTopic().equals(MRecentItem.ON_RECENT_ITEM_CHANGED_TOPIC) && event.getProperty("AD_User_ID") != null) {
+			Object property = event.getProperty("AD_User_ID");
+			if (property instanceof Number) {
+				int id = ((Number)property).intValue();
+				if (id == AD_User_ID) {
+					try {
+						if (desktop != null && desktop.get() != null && desktop.get().isAlive()) {
+							ServerPushTemplate template = new ServerPushTemplate(desktop.get());
+							refresh(template);
+						}
+					} catch (Exception e) {
+						EventManager.getInstance().unregister(this);
+					}
+				}
+			}
+		}
+	}
+
+	@Override
+	public void onPageAttached(Page newpage, Page oldpage) {
+		super.onPageAttached(newpage, oldpage);
+		if (newpage != null) {
+			EventManager.getInstance().register(MRecentItem.ON_RECENT_ITEM_CHANGED_TOPIC, this);
+			updateDesktopReference();
+		}
+	}
+	
+	@Override
+	public void onPageDetached(Page page) {
+		super.onPageDetached(page);
+		cleanup();
+	}
+	
+	@Override
+	public boolean isLazy() {
+		return true;
+	}
+
+	/**
+	 * {@link ITopicSubscriber} for "onRecentItemChanged" topic. <br/>
+	 * Call {@link MRecentItem#postOnChangedEvent(int)}.
+	 */
+	static class TopicSubscriber implements ITopicSubscriber<Integer> {
+		/**
+		 * @param message AD_User_ID
+		 */
+		@Override
+		public void onMessage(Integer message) {
+			MRecentItem.postOnChangedEvent(message);
+		}		
+	}
+}

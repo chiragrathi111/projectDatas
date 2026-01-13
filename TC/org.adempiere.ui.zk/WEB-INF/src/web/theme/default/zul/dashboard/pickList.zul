@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+<window use="org.adempiere.webui.dashboard.DPVis">
+
+<style>
+        .bin {
+            color: blue;
+        }
+    </style>
+
+<div class="svgMenu" style="position: absolute;visibility: hidden;z-index:10;background-color:#ffffff;padding:10">
+</div>
+
+<div class="svgDrawing"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.0/dist/svg.min.js"/>
+  <script src="js/warehouse-visualizer/pickList-visualizer.js"/>
+  <script><![CDATA[
+  zk.afterMount(function () {
+  	init();
+	
+  });
+  ]]></script>
+
+  </window>
+  </zk>

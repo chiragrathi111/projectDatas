@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns:w="client">
+<window id="dpvis" use="org.adempiere.webui.dashboard.DPVis">
+
+<style>
+    .bin {
+        color: blue;
+    }
+    a {
+	    text-decoration: none;
+	    display: inline-block;
+	    padding: 8px 16px;
+    }
+
+    a:hover {
+	    background-color: #ddd;
+	    color: black;
+    }
+
+    .previous {
+	    background-color: #f1f1f1;
+	    color: black;
+        margin-bottom: 12px;
+    }
+</style>
+<div class="binMenu" style="position: absolute;visibility: hidden;z-index:10;background-color:#ffffff;padding:10"></div>
+<div class="navigationArea">
+<!--    <div class="occupancyColorBand">
+        <div style="float:left; margin-left: 20px; margin-right: 12px;">0</div>
+        <div style="float:left;width:500px; height:20px; background: linear-gradient(to right, #BCF4A4 0%, #FC1907 100%);"></div>
+        <div style="float:left;margin-left: 12px; ">100</div>
+    </div> -->
+    <div class="topNav"></div>
+</div>
+<div class="detailArea">
+    <div class="detailHeader">
+        <a href="#" class="previous" w:onClick="goBack()">Back</a>
+        <span class="whSelectionHeader">Header</span>
+    </div>
+    <div class="layoutArea"></div>
+</div>
+  <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.0/dist/svg.min.js"/>
+  <!--<script src="js/warehouse-visualizer/nav-visualizer.js"/>-->
+  <script src="js/warehouse-visualizer/nav-visualizer-dynamic.js"/>
+  <script><![CDATA[
+  zk.afterMount(function () {
+		var data = ${dpvis.getData()};
+  	initWarehouseVis(data);
+  });
+  ]]></script>
+
+  </window>
+  </zk>

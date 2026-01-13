@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns:w="client">
+  <window id="traceability" use="org.adempiere.webui.dashboard.DPTraceability">
+
+    <style>
+    .vis.timeline .item {
+      border-color: #acacac;
+      background-color: #efefef;
+      box-shadow: 5px 5px 10px rgba(128,128,128, 0.3);
+    }
+
+    table .description {
+      font-style: italic;
+    }
+
+    .traceability-visualization {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vis-item-content{
+        text-align: left;
+    }
+
+    .z-grid {
+        border: none;
+        margin-bottom: 12px;
+    }
+    
+    .custom-textbox {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .z-grid-body table {
+        width: 31%;
+    }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+
+    <script src="js/traceability/visjs/vis-timeline-graph2d.min.js"></script>
+    <?link href="js/traceability/visjs/vis-timeline-graph2d.min.css" rel="stylesheet" type="text/css" ?>
+
+    <script src="js/traceability/traceability.js"/>
+
+    <grid>
+      <rows>
+        <row>
+        
+         <cell width="20%" align="center">        
+        Product Id/Bin Id:
+         </cell>
+         
+         <textbox id="productTextFieldId" value="" constraint="no empty" sclass="custom-textbox" />
+          <button label="Track Details" onClick="injectDataToTeracebility()"/>
+          <zscript>
+            <![CDATA[
+            void injectDataToTeracebility()
+            {
+            	String textboxValue = ((Textbox) self.getFellow("productTextFieldId")).getValue();
+                         
+                 	var data = org.adempiere.webui.dashboard.DPTraceability.getDataByProductOrBin(textboxValue);
+               
+                  var traceParent  = ((Div) self.getFellow("traceParent"));
+                  //System.out.println(traceParent.getFirstChild());
+                  var isChildPresent = traceParent.getFirstChild();
+                  if(isChildPresent != null){
+                  traceParent.removeChild(isChildPresent);
+                  Div traceDiv  = new Div();
+                  traceDiv.setClass("traceability-visualization");
+                  traceParent.appendChild(traceDiv);
+                  }
+                
+                 Clients.evalJavaScript("initTraceability(" + data + ");");
+                 
+            }
+          ]]>
+          </zscript>
+        </row>
+      </rows>
+    </grid>
+
+    <div id="traceParent">
+      <div class="traceability-visualization"></div>
+    </div>
+
+    <!--  <script><![CDATA[
+      zk.afterMount(function () {
+	      var data = ${traceability.getDataByProductOrBin('A1')};
+  	    initTraceability(data);
+      });
+    ]]>
+</script>-->
+  </window>
+</zk>

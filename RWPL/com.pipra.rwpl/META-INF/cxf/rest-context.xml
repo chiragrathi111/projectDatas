@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://cxf.apache.org/jaxrs
+http://cxf.apache.org/schemas/jaxrs.xsd">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+	<!-- JAX-RS -->
+	<jaxrs:server id="idempiereRest" address="/rwpl">
+		<jaxrs:serviceBeans>
+			<ref bean="RwplWebserviceBean" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<ref bean="xmlBeansProvider" />
+			<ref bean="xmlBeansJSONProvider" />
+		</jaxrs:providers>
+	</jaxrs:server>
+
+	<bean id="RwplWebserviceBean" class="com.pipra.rwpl.webservice.RwplWebserviceImpl" />
+
+	<bean id="xmlBeansProvider"
+		class="org.apache.cxf.jaxrs.provider.xmlbeans.XMLBeansElementProvider" />
+		
+	<bean id="xmlBeansJSONProvider"
+		class="org.idempiere.jaxrs.provider.xmlbeans.XMLBeansJSONProvider" />
+</beans>

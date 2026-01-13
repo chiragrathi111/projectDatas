@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window use="org.adempiere.webui.dashboard.DPVis">
+
+<div id="drawing"/>
+  <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.0/dist/svg.min.js"/>
+  <script><![CDATA[
+  zk.afterMount(function () {
+    var draw = SVG().addTo('#drawing')
+  , rect = draw.rect(100, 100).fill('#f06')
+  });
+  ]]></script>
+
+  </window>

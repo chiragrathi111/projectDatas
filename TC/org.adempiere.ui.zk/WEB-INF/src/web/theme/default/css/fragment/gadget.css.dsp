@@ -1,0 +1,482 @@
+.fav-new-btn {
+}
+
+.fav-new-btn img {
+	height: 16px;
+	width: 16px;
+}
+
+.z-panel-head {
+	background-image: none; background-color: #FFFFFF;
+}
+
+.dashboard-widget.z-panel {
+	display: flex; 
+	flex-direction: column; 
+	justify-content: stretch;
+}
+.dashboard-widget > .z-panel-body {
+	flex-grow: 1;
+}
+
+.statusline-wrapper {
+	height: 100%;
+}
+
+.z-panel {
+	border-radius: 3px;
+	/*box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;*/
+}
+
+.z-panel-noborder {
+	border: none !important;
+}
+
+.z-panelchildren {
+	border: none;
+	height: 100%;
+}
+
+.z-panel-head {
+	padding-bottom: 1px;
+	border: none;
+}
+
+.z-panel-head .z-panel-header {
+	padding: 0 0 2px 0;
+	color: #262626; 
+	background: white;
+	font-weight: 300;
+	font-size: 13px;
+}	
+
+.z-caption .z-caption-content {
+	padding: 1px 1px 1px 6px;
+	color: #262626; 
+	font-weight: 500;
+	font-size: 13px;
+	cursor: move;
+}
+
+.dashboard-layout {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+.dashboard-widget {
+	margin-top: 1px; 
+	margin-left: auto; 
+	margin-right: auto;
+	position: relative;
+	width: 99%;	
+	height: 100%;
+}
+
+.dashboard-widget-max {
+	margin: auto;
+	width: auto;	
+}
+
+.dashboard-widget.dashboard-widget-max > .z-panel-body > .z-panelchildren {
+	overflow: auto;
+}
+
+.dashboard-report-iframe {
+	min-height:300px; 
+	border: 1px solid lightgray; 
+	margin:auto;
+	width: 99%;
+}
+
+.favourites-box {
+	width: 100%;
+	margin: auto;
+	padding: 1px 0px 1px 0px;
+}
+
+.favourites-box .z-vbox {
+	width: 100%;
+}
+
+.favourites-box .z-hbox {
+	padding: 0px 4px;
+	width: 100%; 
+}
+
+.favourites-box .z-toolbar-start {
+	float: right;
+}
+.favourites-box .trash-font-icon {
+	font-family: FontAwesome;
+	font-size: 20px;
+}
+
+.recentitems-box {
+	width: 100%;
+	margin: auto;
+	padding: 1px 0px 1px 0px;
+}
+
+.recentitems-box A {
+	display: block;
+	padding: 1px 0px;
+}
+
+.recentitems-box .z-toolbar-start {
+	float: right;
+}
+.recentitems-box A.trash-toolbarbutton {
+	display: inline-block;
+}
+
+.fav-toolbar .z-toolbar-content{
+	/*background-color: #E2E8F0 !important;*/
+	background-color: #EAF4EF !important;
+	padding: 12px 16px;
+	gap: 32px;
+}
+
+.fav-toolbar{
+	background: none !important;
+	border-bottom: none
+}
+
+.recentitems-box .trash-toolbarbutton .z-toolbarbutton-content {
+	font-size: 16px;
+}
+.recentitems-box .trash-font-icon {
+	font-family: FontAwesome;
+	font-size: 20px;
+}
+	
+.views-box {
+	width: 100%;
+	margin: auto;
+	padding: 2px 0px 2px 0px;
+}
+
+.views-box .z-vbox {
+	width: 100%;
+}
+
+.views-box .z-toolbarbutton {
+	width: 100%;
+	padding: 0px 14px;
+}
+
+.views-box .link img {
+	height: 16px;
+	width: 16px;
+}
+.views-box .z-toolbarbutton [class^="z-icon"] {
+	text-align: center;
+}
+.views-box .z-toolbarbutton [class^="z-icon"]:before {
+	width: 14px;
+}
+
+.activities-box {
+	width: 100%;
+	margin: auto;
+	padding: 0px 14px;
+	cursor: pointer;
+}
+
+.activities-box .z-vbox {
+	width: 100%;
+}
+
+.activities-box .z-button {
+	text-align: left;
+}
+
+.recentitems-box .z-toolbar, .favourites-box .z-toolbar {
+	margin-top: 1px;
+	margin-bottom: 1px;
+}
+
+<%-- performance indicator --%>
+.performance-indicator {
+	margin: 0px; 
+	position: relative; 
+}
+.performance-indicator img {
+	display: block; 
+	margin: 0px;
+	padding:0px;
+}
+.window-view-pi .performance-indicator img {
+}
+.performance-indicator-box {
+	background-color: #eee; 
+	border: 1px solid #d8d8d8; 
+	border-radius: 11px; 
+	cursor: pointer;
+}
+.performance-indicator-title {
+	text-align: center; 
+	background-color: #c8c8c8; 
+	border: 1px solid #c8c8c8;
+	padding-top: 1px; 
+	padding-bottom: 1px;
+	line-height:12px;
+}
+.performance-panel .z-grid {
+	border: none;
+	margin:0px; 
+	padding:0px; 
+	position: relative;
+	width: 100%;
+}
+
+.gauge-indicator-title {
+	text-align: center;
+	padding-top: 1px; 
+	padding-bottom: 1px;
+	line-height:12px;
+}
+
+.performance-gadget {
+	display: flex;
+ 	justify-content: center;
+ 	align-items: center;
+	cursor: pointer;
+}
+
+.performance-gadget > .z-div {
+	width: 100%;	
+}
+
+@media screen and (min-width: 768px) {
+	.dashboard-row .chart-gadget {
+		max-height: 300px; 
+	}
+}
+
+@media screen and (max-width: 767px) {
+	.dashboard-row .chart-gadget {
+		max-height: 150px; 
+	}
+}
+
+.dashboard-widget.dashboard-widget-max .chart-gadget {
+	height: 100% !important; 
+}
+
+.statusline-gadget {
+	display: flex;
+	flex-direction: column;
+ 	justify-content: center;
+ 	align-items: center;
+ 	height: 100%;
+	padding: 10px 0px;
+}
+
+.help-content
+{
+	padding: 2px;
+	font-size: 12px;
+	font-weight: normal;
+}
+.mobile .help-content
+{
+	font-size: 14px;
+}
+
+.fav-new-btn.z-toolbarbutton [class^="z-icon-"] {
+	font-size: smaller;
+	color: #333;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+<%-- User Favorite Dashboard Panel Start --%>
+.fav-tree-panel {
+  border-radius: 0px;
+  /*border: 1px solid #d8d8d8 !important;*/
+   padding: 0px 6px;
+}
+
+
+
+.fav-toolbar-div {
+  position: relative;
+  width: 100%;
+}
+
+.fav-tree-btn {
+  margin-left: 5px !important;
+  padding: 3px 15px;
+  border: 1px solid #6d6d6d;
+}
+
+.fav-folder-textbox {
+  width: 100%;
+}
+.fav-summary-folder .z-treecell-content {
+  font-weight: bold;
+}
+
+.fav-expand-mode {
+  transform: rotate(180deg);
+}
+
+.fav-mobile-ctx-menu {
+  margin: 0px 5px;
+  padding: 0px 5px;
+  vertical-align: middle;
+}
+<%-- User Favorite Dashboard Panel End --%>
+
+.z-anchorchildren .z-hlayout {
+	white-space: normal;
+}
+
+.desktop-home-tabpanel .z-hlayout-inner {
+	padding: 8px 24px !important;
+}
+
+.dashboard-content-help-icon {
+	padding: 5px;
+	cursor: default;
+}
+
+.fill-mandatory-process-para-wrapper {
+	padding: 11px;
+	display: flex;
+	flex-direction: column;
+	max-width: 500px;
+}
+
+.fill-mandatory-process-para-text {
+    background: #C62223;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    opacity: 90%;
+}
+
+/*wms overrides*/
+.dashboard-widget .z-panel-icon{
+    border:none;
+    font-size:16px !important;
+    background: transparent;
+}
+
+ .desktop-left-column .dashboard-widget .z-caption-content {
+    margin-left: 8%;
+    color:#64748B;
+    font-weight: 700;
+}
+
+.desktop-center-widget-pannel-header-cont {
+	height: 28px;
+    display: flex;
+    align-items: center;
+} 
+
+ .desktop-center .dashboard-widget .z-caption-content .z-label {
+    height: inherit;
+    color: #081735;
+    font-size: 16px;
+    margin-left: 16px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 32px; /* 133.333% */
+	letter-spacing: -0.48px;
+	/*border-left: 16px solid  #081735;
+	border-radius: 4px;*/
+}  
+
+.desktop-center .dashboard-widget .z-panel-head {
+    padding: 8px 0px 0px 0px;
+}
+
+/*.recentitems-box .z-panel{
+    box-shadow:none;
+}*/
+
+.recentitems-box .z-toolbar .z-toolbar-content {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    align-items: center;
+    gap: 24px;
+	background-color: #EAF4EF !important;
+}
+
+.recentitems-box .z-toolbarbutton-content{
+	color: #28303F;
+    font-weight: 700;
+}
+
+.recentitems-box .trash-font-icon{
+	color: #28303F;
+	cursor: pointer;
+}
+
+.recentitems-box .trash-toolbarbutton {
+	margin-left: 16px;
+}
+
+.recentitems-box .highlighted-node {
+    background-color: #298F60;
+    color: black;
+}
+
+/*favourites toolbar action buttons*/
+
+.fav-toolbar .z-toolbarbutton i{
+	font-size: 16px;
+	font-weight: 500;
+	color: #28303F;
+}
+
+.fav-toolbar .fav-button-add{
+	margin-left: 16px;
+}
+
+.pipra-charts-title-indicator {
+	text-align: center; 
+	background-color: #ffffff; 
+	border: 1px solid #ffffff;
+	padding-top: 1px; 
+	padding-bottom: 1px;
+	line-height:12px;
+}
+
+.pipra-charts-vLayout {
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff; 
+  text-align: center;
+}
+
+.pipra-charts-vLayout-LabelText {
+   color: #081735;
+  text-align: center;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px; /* 140% */
+  letter-spacing: 0.15px;
+}
+
+.pipra-charts-vLayout-LabelNumber {
+  color: #8F95B2 !important;
+  text-align: center;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Inter;
+  font-size: 20px !important;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 42px;
+  letter-spacing: 0.15px;
+}
+
+.z-listitem.z-listitem-selected>.z-listcell{
+	    background: #EAF4EF !important;
+}

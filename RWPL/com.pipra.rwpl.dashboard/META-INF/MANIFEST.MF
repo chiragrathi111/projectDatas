@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: RWPLDashboard
+Bundle-SymbolicName: com.pipra.rwpl.dashboard
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: PIPRA
+Fragment-Host: org.adempiere.ui.zk;bundle-version="10.0.0"
+Automatic-Module-Name: com.pipra.rwpl.dashboard
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-ClassPath: zul/,
+ .
+Require-Bundle: org.adempiere.ui.zk

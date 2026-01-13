@@ -1,0 +1,4 @@
+<?page title="ChartJS for ZK 8.x" ?>
+<zk>
+<window use="org.adempiere.webui.dashboard.DPReturns" />
+</zk>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2009 Low Heng Sin
+Copyright (C) 2009 Idalica Corporation
+-->
+<zk>
+<zscript>
+  import org.compiere.model.MSysConfig;
+  var appDescription = MSysConfig.getValue("ZK_APP_DESCRIPTION");
+</zscript>
+<html>
+<![CDATA[
+<style>
+	.versionInfoBox {
+		background-color: #2563EB;
+		color:#fff;
+		margin: 5px;
+		padding: 3px;
+		margin-top: 8%;
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		font-size: 8pt;
+	}
+	.login-left-info{
+		font-size:24px;
+		font-weight:bold;
+		overflow-wrap: break-word;
+	}
+	.login-left-div{
+		width:100%;
+	}
+</style>
+]]>
+<div class="versionInfoBox">
+	<table border="0" class="login-left-div">
+		<tr>
+			<td align="center" class="login-left-info">${appDescription}</td>	
+		</tr>
+	</table>
+</div>
+
+</html>
+</zk>
